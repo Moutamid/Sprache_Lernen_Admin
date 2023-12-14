@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Sprache Lernen Admin</string>
     <string name="app">Sprache Lernen</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet corporis dignissimos error fugiat harum hic laborum neque nisi obcaecati officia quibusdam quod, ratione reprehenderit saepe!</string>
 </resources>

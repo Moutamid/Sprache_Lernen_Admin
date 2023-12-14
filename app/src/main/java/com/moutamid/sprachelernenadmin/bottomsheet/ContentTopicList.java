@@ -1,13 +1,11 @@
 package com.moutamid.sprachelernenadmin.bottomsheet;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,16 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fxn.stash.Stash;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.database.DataSnapshot;
-import com.moutamid.sprachelernenadmin.AddContentActivity;
-import com.moutamid.sprachelernenadmin.AddExerciseActivity;
-import com.moutamid.sprachelernenadmin.AddTopicsActivity;
+import com.moutamid.sprachelernenadmin.activities.AddContentActivity;
+import com.moutamid.sprachelernenadmin.activities.AddExerciseActivity;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
-import com.moutamid.sprachelernenadmin.adapters.TopicsAdapter;
 import com.moutamid.sprachelernenadmin.adapters.TopicsListAdapter;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 

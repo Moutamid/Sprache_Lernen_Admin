@@ -35,6 +35,8 @@ public class Constants {
     public static final String CONTENT = "CONTENT";
     public static final String EXERCISE = "EXERCISE";
     public static final String PASS = "PASS";
+    public static final String PASS_CONTENT = "PASS_CONTENT";
+    public static final String PASS_EXERCISE = "PASS_EXERCISE";
 
     public static String getFormattedDate(long date) {
         return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault()).format(date);

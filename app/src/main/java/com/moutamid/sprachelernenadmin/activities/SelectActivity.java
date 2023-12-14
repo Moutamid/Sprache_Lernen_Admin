@@ -1,10 +1,11 @@
-package com.moutamid.sprachelernenadmin;
+package com.moutamid.sprachelernenadmin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.bottomsheet.ContentTopicList;
 import com.moutamid.sprachelernenadmin.databinding.ActivitySelectBinding;
 
@@ -28,6 +29,9 @@ public class SelectActivity extends AppCompatActivity {
             ContentTopicList bottomSheetFragment = new ContentTopicList(false);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         });
+
+        binding.viewContent.setOnClickListener(v -> startActivity(new Intent(this, ViewContentActivity.class)));
+        binding.viewExercise.setOnClickListener(v -> startActivity(new Intent(this, ViewExerciseActivity.class)));
 
     }
 }

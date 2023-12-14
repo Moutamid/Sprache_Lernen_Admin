@@ -1,4 +1,4 @@
-package com.moutamid.sprachelernenadmin;
+package com.moutamid.sprachelernenadmin.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.moutamid.sprachelernenadmin.Constants;
+import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.adapters.TopicsAdapter;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddTopicsBinding;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;

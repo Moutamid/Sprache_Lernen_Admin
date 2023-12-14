@@ -1,34 +1,33 @@
-package com.moutamid.sprachelernenadmin;
+package com.moutamid.sprachelernenadmin.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.textfield.TextInputLayout;
-import com.moutamid.sprachelernenadmin.databinding.ActivityAddContentBinding;
+import com.moutamid.sprachelernenadmin.Constants;
+import com.moutamid.sprachelernenadmin.R;
+import com.moutamid.sprachelernenadmin.databinding.ActivityEditContentBinding;
 import com.moutamid.sprachelernenadmin.models.ContentModel;
-import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class AddContentActivity extends AppCompatActivity {
-    ActivityAddContentBinding binding;
+public class EditContentActivity extends AppCompatActivity {
+    ActivityEditContentBinding binding;
     ArrayList<String> options;
     ArrayList<String> rows;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAddContentBinding.inflate(getLayoutInflater());
+        binding = ActivityEditContentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.toolbar.title.setText("Add Content");
+        binding.toolbar.title.setText("Edit Content");
         binding.toolbar.back.setOnClickListener(v -> onBackPressed());
 
         options = new ArrayList<>();
@@ -52,39 +51,82 @@ public class AddContentActivity extends AppCompatActivity {
             }
         });
 
-        addOption();
-        addRow();
+        ContentModel model = (ContentModel) Stash.getObject(Constants.PASS_CONTENT, ContentModel.class);
+        setContent(model);
 
         binding.addOption.setOnClickListener(v -> addOption());
         binding.addRow.setOnClickListener(v -> addRow());
 
         binding.next.setOnClickListener(v -> {
-            uploadData();
+            uploadData(model);
         });
 
     }
 
-    private void uploadData() {
+    private void setContent(ContentModel model) {
+        binding.heading.getEditText().setText(model.getHeading());
+        binding.note.getEditText().setText(model.getNote());
+
+        boolean haveRows = model.isHaveTable();
+        boolean hasOptions = model.isHasOptions();
+
+        binding.showList.setChecked(hasOptions);
+        binding.showTable.setChecked(haveRows);
+
+        if (hasOptions) {
+            binding.optionsLayout.removeAllViews();
+            for (int i=0; i<model.getOptions().size(); i++){
+                addOption();
+            }
+            for (int i = 0; i < binding.optionsLayout.getChildCount(); i++) {
+                View view = binding.optionsLayout.getChildAt(i);
+                if (view instanceof RelativeLayout) {
+                    RelativeLayout textInputLayout = (RelativeLayout) view;
+                    TextInputLayout customEditText = textInputLayout.findViewById(R.id.addColumn);
+
+                    customEditText.getEditText().setText(model.getOptions().get(i));
+                }
+            }
+        }
+        if (haveRows) {
+            binding.columnLayout.removeAllViews();
+            for (int i=0; i<model.getRows().size(); i++){
+                addRow();
+            }
+            for (int i = 0; i < binding.columnLayout.getChildCount(); i++) {
+                View view = binding.columnLayout.getChildAt(i);
+                if (view instanceof RelativeLayout) {
+                    RelativeLayout textInputLayout = (RelativeLayout) view;
+                    TextInputLayout customEditText = textInputLayout.findViewById(R.id.addColumn);
+
+                    customEditText.getEditText().setText(model.getRows().get(i));
+                }
+            }
+        }
+
+    }
+
+    private void uploadData(ContentModel model) {
+        Constants.showDialog();
         boolean haveRows = binding.showTable.isChecked();
         boolean hasOptions = binding.showList.isChecked();
 
         if (haveRows) retrieveDataForRows();
         if (hasOptions) retrieveDataForOptions();
 
-        TopicsModel topicsModel = (TopicsModel) Stash.getObject(Constants.PASS, TopicsModel.class);
-
-        ContentModel model = new ContentModel(UUID.randomUUID().toString(), topicsModel,
+        ContentModel contentModel = new ContentModel(model.getID(), model.getTopicsModel(),
                 binding.heading.getEditText().getText().toString(),
                 binding.note.getEditText().getText().toString(), hasOptions, haveRows, options, rows);
 
         String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.CONTENT).child(model.getID()).setValue(model)
+        Constants.databaseReference().child(name).child(Constants.CONTENT).child(model.getID()).setValue(contentModel)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
-                    Toast.makeText(AddContentActivity.this, "Content Added Successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditContentActivity.this, "Content Updated Successfully", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
-                    Toast.makeText(AddContentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditContentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
 
     }
