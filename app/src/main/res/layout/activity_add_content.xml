@@ -78,38 +78,38 @@
                 android:text="Show data in List View?"
                 android:textSize="18sp" />
 
-        <LinearLayout
-            android:id="@+id/options"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/addOption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="start"
-                android:paddingStart="0dp"
-                android:paddingEnd="0dp"
-                android:text="List Items"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                app:backgroundTint="@color/white"
-                app:cornerRadius="12dp"
-                app:icon="@drawable/round_add_24"
-                app:iconGravity="end"
-                app:iconSize="24dp"
-                app:iconTint="@color/black" />
-
             <LinearLayout
-                android:id="@+id/optionsLayout"
+                android:id="@+id/options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/addOption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="start"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:text="List Items"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    app:backgroundTint="@color/white"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/round_add_24"
+                    app:iconGravity="end"
+                    app:iconSize="24dp"
+                    app:iconTint="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/optionsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </LinearLayout>
 
             <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/showTable"
@@ -123,8 +123,8 @@
                 android:id="@+id/tableLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/addRow"
@@ -161,8 +161,8 @@
                 android:id="@+id/next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
                 android:layout_marginTop="12dp"
+                android:padding="12dp"
                 android:text="Add Content"
                 android:textSize="18sp" />
 

@@ -40,6 +40,7 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
     public void onBindViewHolder(@NonNull TopicVH holder, int position) {
         TopicsModel model = list.get(holder.getAdapterPosition());
         holder.name.setText(model.getTopicName());
+        holder.content.setText(model.getContentType());
         holder.itemView.setOnClickListener(v -> clickListner.onClick(list.get(holder.getAdapterPosition())));
     }
 
@@ -50,9 +51,11 @@ public class TopicsListAdapter extends RecyclerView.Adapter<TopicsListAdapter.To
 
     public class TopicVH extends RecyclerView.ViewHolder {
         TextView name;
+        TextView content;
         public TopicVH(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.text);
+            content = itemView.findViewById(R.id.content);
         }
     }
 

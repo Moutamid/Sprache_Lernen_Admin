@@ -43,7 +43,7 @@ public class ExerciseAdapters extends RecyclerView.Adapter<ExerciseAdapters.Cont
     public void onBindViewHolder(@NonNull ContentVH holder, int position) {
         ExerciseModel model = list.get(holder.getAdapterPosition());
 
-        holder.topic.setText(model.getTopicsModel().getTopicName());
+        holder.topic.setText(model.getLevel());
         holder.question.setText(model.getQuestion());
         String ans = "";
 

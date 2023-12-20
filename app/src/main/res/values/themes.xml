@@ -17,5 +17,11 @@
         <item name="android:windowDisablePreview">true</item>
     </style>
 
+    <style name="chipsColor" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_color</item>
+        <item name="android:textColor">@color/chip_text_color</item>
+        <item name="checkedIconTint">@color/grey</item>
+    </style>
+
     <style name="Theme.SpracheLernenAdmin" parent="Base.Theme.SpracheLernenAdmin" />
 </resources>

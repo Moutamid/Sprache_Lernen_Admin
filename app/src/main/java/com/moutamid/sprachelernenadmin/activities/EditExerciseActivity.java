@@ -46,7 +46,7 @@ public class EditExerciseActivity extends AppCompatActivity {
             boolean isMultipleChecked = binding.isMultiple.isChecked();
             boolean isReorderChecked = binding.isReorder.isChecked();
 
-            ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getTopicsModel(),
+            ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getLevel(),
                     binding.question.getEditText().getText().toString(),
                     options,
                     binding.answer.getEditText().getText().toString(),

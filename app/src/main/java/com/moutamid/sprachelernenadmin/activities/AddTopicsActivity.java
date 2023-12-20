@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,14 +66,25 @@ public class AddTopicsActivity extends AppCompatActivity {
 
         TextInputLayout topic = dialog.findViewById(R.id.topic);
         Button complete = dialog.findViewById(R.id.complete);
+        ChipGroup chipGroup = dialog.findViewById(R.id.contentType);
 
         complete.setOnClickListener(v -> {
             String topicName = topic.getEditText().getText().toString();
             if (!topicName.isEmpty()) {
                 dialog.dismiss();
                 Constants.showDialog();
-                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName);
-                Constants.databaseReference().child(name).child(Constants.TOPICS).child(model.getID()).setValue(model)
+
+                String s = "";
+
+                for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                    Chip chip = (Chip) chipGroup.getChildAt(i);
+                    if (chip.isChecked()){
+                        s = chip.getText().toString();
+                    }
+                }
+
+                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, s);
+                Constants.databaseReference().child(name).child(Constants.TOPICS).child(s).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
                             Toast.makeText(AddTopicsActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
@@ -100,8 +113,10 @@ public class AddTopicsActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     list.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        TopicsModel topicsModel = dataSnapshot.getValue(TopicsModel.class);
-                        list.add(topicsModel);
+                        for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
+                            TopicsModel topicsModel = dataSnapshot2.getValue(TopicsModel.class);
+                            list.add(topicsModel);
+                        }
                     }
 
                     if (list.size() > 0){

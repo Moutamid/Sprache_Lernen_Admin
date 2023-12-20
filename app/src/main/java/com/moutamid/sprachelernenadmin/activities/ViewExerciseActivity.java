@@ -53,8 +53,10 @@ public class ViewExerciseActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         list.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            ExerciseModel model = snapshot.getValue(ExerciseModel.class);
-                            list.add(model);
+                            for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                                ExerciseModel model = snapshot2.getValue(ExerciseModel.class);
+                                list.add(model);
+                            }
                         }
                         ExerciseAdapters adapters = new ExerciseAdapters(this, list);
                         binding.contentRC.setAdapter(adapters);

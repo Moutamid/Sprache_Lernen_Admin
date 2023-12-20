@@ -30,11 +30,6 @@ import java.util.Collections;
 public class ContentTopicList extends BottomSheetDialogFragment {
 
     ArrayList<TopicsModel> list;
-    boolean isContent;
-
-    public ContentTopicList(boolean isContent) {
-        this.isContent = isContent;
-    }
 
     @Nullable
     @Override
@@ -59,9 +54,11 @@ public class ContentTopicList extends BottomSheetDialogFragment {
                 .addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
                         list.clear();
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            TopicsModel topicsModel = dataSnapshot.getValue(TopicsModel.class);
-                            list.add(topicsModel);
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
+                                TopicsModel topicsModel = dataSnapshot2.getValue(TopicsModel.class);
+                                list.add(topicsModel);
+                            }
                         }
                         if (list.size() > 0){
                             Collections.reverse(list);
@@ -74,11 +71,7 @@ public class ContentTopicList extends BottomSheetDialogFragment {
                         TopicsListAdapter adapter = new TopicsListAdapter(requireContext(), list, model -> {
                             dismiss();
                             Stash.put(Constants.PASS, model);
-                            if (isContent) {
-                                startActivity(new Intent(requireContext(), AddContentActivity.class));
-                            } else {
-                                startActivity(new Intent(requireContext(), AddExerciseActivity.class));
-                            }
+                            startActivity(new Intent(requireContext(), AddContentActivity.class));
                         });
                         topicList.setAdapter(adapter);
                     } else {

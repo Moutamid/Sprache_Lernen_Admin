@@ -1,14 +1,23 @@
 package com.moutamid.sprachelernenadmin.models;
 
 public class TopicsModel {
-    String ID, topicName;
+    String ID, topicName, contentType;
 
     public TopicsModel() {
     }
 
-    public TopicsModel(String ID, String topicName) {
+    public TopicsModel(String ID, String topicName, String contentType) {
         this.ID = ID;
         this.topicName = topicName;
+        this.contentType = contentType;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     public String getID() {

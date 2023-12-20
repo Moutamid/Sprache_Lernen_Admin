@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.bottomsheet.ContentTopicList;
+import com.moutamid.sprachelernenadmin.bottomsheet.LevelSelection;
 import com.moutamid.sprachelernenadmin.databinding.ActivitySelectBinding;
 
 public class SelectActivity extends AppCompatActivity {
@@ -22,11 +23,11 @@ public class SelectActivity extends AppCompatActivity {
 
         binding.topic.setOnClickListener(v -> startActivity(new Intent(this, AddTopicsActivity.class)));
         binding.content.setOnClickListener(v -> {
-            ContentTopicList bottomSheetFragment = new ContentTopicList(true);
+            ContentTopicList bottomSheetFragment = new ContentTopicList();
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         });
         binding.exercise.setOnClickListener(v -> {
-            ContentTopicList bottomSheetFragment = new ContentTopicList(false);
+            LevelSelection bottomSheetFragment = new LevelSelection();
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         });
 

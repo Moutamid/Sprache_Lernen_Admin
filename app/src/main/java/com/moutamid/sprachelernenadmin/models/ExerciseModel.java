@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ExerciseModel {
     String ID;
-    TopicsModel topicsModel;
+    String level;
     String question;
     ArrayList<String> options;
     String rightAnswer;
@@ -13,9 +13,9 @@ public class ExerciseModel {
     public ExerciseModel() {
     }
 
-    public ExerciseModel(String ID, TopicsModel topicsModel, String question, ArrayList<String> options, String rightAnswer, boolean isMCQs, boolean isFillBlank, boolean isOrder) {
+    public ExerciseModel(String ID, String level, String question, ArrayList<String> options, String rightAnswer, boolean isMCQs, boolean isFillBlank, boolean isOrder) {
         this.ID = ID;
-        this.topicsModel = topicsModel;
+        this.level = level;
         this.question = question;
         this.options = options;
         this.rightAnswer = rightAnswer;
@@ -32,12 +32,12 @@ public class ExerciseModel {
         this.ID = ID;
     }
 
-    public TopicsModel getTopicsModel() {
-        return topicsModel;
+    public String getLevel() {
+        return level;
     }
 
-    public void setTopicsModel(TopicsModel topicsModel) {
-        this.topicsModel = topicsModel;
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getQuestion() {

@@ -23,6 +23,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     ActivityAddExerciseBinding binding;
     int optionsCount = 1;
     ArrayList<String> options;
+    String level = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,8 @@ public class AddExerciseActivity extends AppCompatActivity {
         binding.toolbar.back.setOnClickListener(v -> onBackPressed());
 
         options = new ArrayList<>();
+
+        level = getIntent().getStringExtra(Constants.LEVEL);
 
         addOption();
         addOption();
@@ -43,8 +46,7 @@ public class AddExerciseActivity extends AppCompatActivity {
             boolean isFTBChecked = binding.isFTB.isChecked();
             boolean isMultipleChecked = binding.isMultiple.isChecked();
             boolean isReorderChecked = binding.isReorder.isChecked();
-            TopicsModel topicsModel = (TopicsModel) Stash.getObject(Constants.PASS, TopicsModel.class);
-            ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), topicsModel,
+            ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), level,
                     binding.question.getEditText().getText().toString(),
                     options,
                     binding.answer.getEditText().getText().toString(),
@@ -52,7 +54,7 @@ public class AddExerciseActivity extends AppCompatActivity {
             );
             Constants.showDialog();
             String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(model.getID()).setValue(model)
+            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
                         Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();

@@ -51,8 +51,10 @@ public class ViewContentActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         list.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            ContentModel model = snapshot.getValue(ContentModel.class);
-                            list.add(model);
+                            for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                                ContentModel model = snapshot2.getValue(ContentModel.class);
+                                list.add(model);
+                            }
                         }
                         ContentAdapters adapters = new ContentAdapters(this, list);
                         binding.contentRC.setAdapter(adapters);
