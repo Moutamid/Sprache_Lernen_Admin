@@ -48,6 +48,7 @@ public class EditExerciseActivity extends AppCompatActivity {
 
             ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getLevel(),
                     binding.question.getEditText().getText().toString(),
+                    model.getExerciseName(),
                     options,
                     binding.answer.getEditText().getText().toString(),
                     isMultipleChecked, isFTBChecked, isReorderChecked

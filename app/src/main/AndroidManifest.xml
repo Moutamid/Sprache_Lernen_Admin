@@ -16,6 +16,15 @@
         android:theme="@style/Theme.SpracheLernenAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ViewTrialActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.TrialQuestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.LevelExercisesActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.EditContentActivity"
             android:exported="false" />
         <activity

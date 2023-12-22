@@ -27,12 +27,18 @@ public class SelectActivity extends AppCompatActivity {
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         });
         binding.exercise.setOnClickListener(v -> {
-            LevelSelection bottomSheetFragment = new LevelSelection();
+            LevelSelection bottomSheetFragment = new LevelSelection(false);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         });
 
+        binding.newExercise.setOnClickListener(v -> {
+            LevelSelection bottomSheetFragment = new LevelSelection(true);
+            bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+        });
         binding.viewContent.setOnClickListener(v -> startActivity(new Intent(this, ViewContentActivity.class)));
         binding.viewExercise.setOnClickListener(v -> startActivity(new Intent(this, ViewExerciseActivity.class)));
+        binding.trialQuestions.setOnClickListener(v -> startActivity(new Intent(this, TrialQuestionActivity.class)));
+        binding.viewTrial.setOnClickListener(v -> startActivity(new Intent(this, ViewTrialActivity.class)));
 
     }
 }

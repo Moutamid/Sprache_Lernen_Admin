@@ -24,6 +24,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     int optionsCount = 1;
     ArrayList<String> options;
     String level = "";
+    String exercise = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class AddExerciseActivity extends AppCompatActivity {
         options = new ArrayList<>();
 
         level = getIntent().getStringExtra(Constants.LEVEL);
+        exercise = getIntent().getStringExtra(Constants.exercise);
 
         addOption();
         addOption();
@@ -48,13 +50,14 @@ public class AddExerciseActivity extends AppCompatActivity {
             boolean isReorderChecked = binding.isReorder.isChecked();
             ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), level,
                     binding.question.getEditText().getText().toString(),
+                    exercise,
                     options,
                     binding.answer.getEditText().getText().toString(),
                     isMultipleChecked, isFTBChecked, isReorderChecked
             );
             Constants.showDialog();
             String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
+            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(level).child(exercise).child(model.getID()).setValue(model)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
                         Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();

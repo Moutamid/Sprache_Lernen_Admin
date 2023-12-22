@@ -52,7 +52,7 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.TopicVH> {
                         dialog.dismiss();
                         Constants.showDialog();
                         String name = Stash.getString(Constants.SELECT, Constants.URDU);
-                        Constants.databaseReference().child(name).child(Constants.TOPICS).child(model.getID()).removeValue()
+                        Constants.databaseReference().child(name).child(Constants.TOPICS).child(model.getContentType()).child(model.getID()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Constants.dismissDialog();
                                     Toast.makeText(context, "Topic Deleted Successfully", Toast.LENGTH_SHORT).show();
