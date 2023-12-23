@@ -70,6 +70,7 @@ public class AddExerciseActivity extends AppCompatActivity {
     }
 
     private void retrieveDataForOptions() {
+        options.clear();
         for (int i = 0; i < binding.optionsLayout.getChildCount(); i++) {
             View view = binding.optionsLayout.getChildAt(i);
             if (view instanceof RelativeLayout) {
