@@ -12,24 +12,22 @@ import com.fxn.stash.Stash;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
-import com.moutamid.sprachelernenadmin.databinding.ActivityEditExerciseBinding;
-import com.moutamid.sprachelernenadmin.models.ContentModel;
+import com.moutamid.sprachelernenadmin.databinding.ActivityTrialEditBinding;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
-import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class EditExerciseActivity extends AppCompatActivity {
-    ActivityEditExerciseBinding binding;
+public class TrialEditActivity extends AppCompatActivity {
+    ActivityTrialEditBinding binding;
     int optionsCount = 1;
     ArrayList<String> options;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEditExerciseBinding.inflate(getLayoutInflater());
+        binding = ActivityTrialEditBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         binding.toolbar.title.setText("Edit Exercise");
         binding.toolbar.back.setOnClickListener(v -> onBackPressed());
 
@@ -54,16 +52,16 @@ public class EditExerciseActivity extends AppCompatActivity {
                     isMultipleChecked, isFTBChecked, isReorderChecked
             );
             Constants.showDialog();
-            String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(model.getID()).setValue(exerciseModel)
+            Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(exerciseModel)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
-                        Toast.makeText(EditExerciseActivity.this, "Exercise Updated Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TrialEditActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
                     }).addOnFailureListener(e -> {
                         Constants.dismissDialog();
-                        Toast.makeText(EditExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TrialEditActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
+
     }
 
     private void setContent(ExerciseModel model) {

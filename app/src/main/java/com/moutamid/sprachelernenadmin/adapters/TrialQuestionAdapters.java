@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.activities.EditExerciseActivity;
+import com.moutamid.sprachelernenadmin.activities.TrialEditActivity;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class TrialQuestionAdapters extends RecyclerView.Adapter<TrialQuestionAda
 
         holder.edit.setOnClickListener(v -> {
             Stash.put(Constants.PASS_EXERCISE, model);
-            context.startActivity(new Intent(context, EditExerciseActivity.class));
+            context.startActivity(new Intent(context, TrialEditActivity.class));
         });
 
         holder.delete.setOnClickListener(v -> {
