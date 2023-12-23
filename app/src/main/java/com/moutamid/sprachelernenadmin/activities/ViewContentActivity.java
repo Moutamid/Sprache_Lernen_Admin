@@ -1,5 +1,6 @@
 package com.moutamid.sprachelernenadmin.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -8,6 +9,8 @@ import android.widget.Toast;
 
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.adapters.ContentAdapters;
@@ -45,23 +48,28 @@ public class ViewContentActivity extends AppCompatActivity {
     private void getContent() {
         Constants.showDialog();
         String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.CONTENT).get()
-                .addOnSuccessListener(dataSnapshot -> {
-                    Constants.dismissDialog();
-                    if (dataSnapshot.exists()) {
-                        list.clear();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                                ContentModel model = snapshot2.getValue(ContentModel.class);
-                                list.add(model);
-                            }
+        Constants.databaseReference().child(name).child(Constants.CONTENT).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Constants.dismissDialog();
+                if (dataSnapshot.exists()) {
+                    list.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                            ContentModel model = snapshot2.getValue(ContentModel.class);
+                            list.add(model);
                         }
-                        ContentAdapters adapters = new ContentAdapters(this, list);
-                        binding.contentRC.setAdapter(adapters);
                     }
-                }).addOnFailureListener(e -> {
-                    Constants.dismissDialog();
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+                    ContentAdapters adapters = new ContentAdapters(ViewContentActivity.this, list);
+                    binding.contentRC.setAdapter(adapters);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError e) {
+                Constants.dismissDialog();
+                Toast.makeText(ViewContentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

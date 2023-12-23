@@ -95,7 +95,7 @@ public class LevelExercisesActivity extends AppCompatActivity {
                     }
                 }
 
-                Exercise model = new Exercise(UUID.randomUUID().toString(), topicName, s);
+                Exercise model = new Exercise(UUID.randomUUID().toString(), s, topicName);
                 Constants.databaseReference().child(lang).child(Constants.EXERCISE_LIST).child(s).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();

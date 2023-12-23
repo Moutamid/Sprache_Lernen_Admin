@@ -22,6 +22,7 @@ public class TrialQuestionActivity extends AppCompatActivity {
     ActivityTrialQuestionBinding binding;
     int optionsCount = 1;
     ArrayList<String> options;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,6 @@ public class TrialQuestionActivity extends AppCompatActivity {
 
         options = new ArrayList<>();
 
-
         addOption();
         addOption();
 
@@ -44,16 +44,15 @@ public class TrialQuestionActivity extends AppCompatActivity {
             boolean isFTBChecked = binding.isFTB.isChecked();
             boolean isMultipleChecked = binding.isMultiple.isChecked();
             boolean isReorderChecked = binding.isReorder.isChecked();
-            ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), "",
+            ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), "Start",
                     binding.question.getEditText().getText().toString(),
-                    "",
+                    "Trial Questions",
                     options,
                     binding.answer.getEditText().getText().toString(),
                     isMultipleChecked, isFTBChecked, isReorderChecked
             );
             Constants.showDialog();
-            String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(model)
+            Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(model)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
                         Toast.makeText(TrialQuestionActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
@@ -62,7 +61,6 @@ public class TrialQuestionActivity extends AppCompatActivity {
                         Toast.makeText(TrialQuestionActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
         });
-
     }
 
     private void retrieveDataForOptions() {

@@ -57,7 +57,7 @@ public class AddExerciseActivity extends AppCompatActivity {
             );
             Constants.showDialog();
             String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(level).child(exercise).child(model.getID()).setValue(model)
+            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
                         Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
