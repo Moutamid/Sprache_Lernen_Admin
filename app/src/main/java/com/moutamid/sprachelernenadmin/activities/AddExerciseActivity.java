@@ -56,8 +56,8 @@ public class AddExerciseActivity extends AppCompatActivity {
                     isMultipleChecked, isFTBChecked, isReorderChecked
             );
             Constants.showDialog();
-            String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
+
+            Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
                         Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();

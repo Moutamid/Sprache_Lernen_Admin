@@ -117,8 +117,7 @@ public class LevelExercisesActivity extends AppCompatActivity {
         super.onResume();
         Constants.initDialog(this);
         Constants.showDialog();
-        String lang = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(lang).child(Constants.EXERCISE_LIST).child(name).addValueEventListener(new ValueEventListener() {
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE_LIST).child(name).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Constants.dismissDialog();

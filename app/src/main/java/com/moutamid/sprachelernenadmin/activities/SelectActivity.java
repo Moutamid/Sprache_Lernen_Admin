@@ -35,6 +35,8 @@ public class SelectActivity extends AppCompatActivity {
             LevelSelection bottomSheetFragment = new LevelSelection(true);
             bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
         });
+
+        binding.modelPaper.setOnClickListener(v -> startActivity(new Intent(this, ModelPapersActivity.class)));
         binding.viewContent.setOnClickListener(v -> startActivity(new Intent(this, ViewContentActivity.class)));
         binding.viewExercise.setOnClickListener(v -> startActivity(new Intent(this, ViewExerciseActivity.class)));
         binding.trialQuestions.setOnClickListener(v -> startActivity(new Intent(this, TrialQuestionActivity.class)));

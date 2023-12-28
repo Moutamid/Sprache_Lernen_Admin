@@ -49,8 +49,7 @@ public class ContentTopicList extends BottomSheetDialogFragment {
         topicList.setLayoutManager(new LinearLayoutManager(requireContext()));
         topicList.setHasFixedSize(false);
 
-        String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.TOPICS).get()
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).get()
                 .addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
                         list.clear();

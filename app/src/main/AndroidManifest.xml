@@ -16,6 +16,18 @@
         android:theme="@style/Theme.SpracheLernenAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".activities.EditModelContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.AddModelContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ModelContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ModelPapersActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.TrialEditActivity"
             android:exported="false" />
         <activity

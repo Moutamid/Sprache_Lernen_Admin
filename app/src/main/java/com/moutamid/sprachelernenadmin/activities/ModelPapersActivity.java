@@ -23,22 +23,22 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
+import com.moutamid.sprachelernenadmin.adapters.ModelTopicsAdapter;
 import com.moutamid.sprachelernenadmin.adapters.TopicsAdapter;
-import com.moutamid.sprachelernenadmin.databinding.ActivityAddTopicsBinding;
+import com.moutamid.sprachelernenadmin.databinding.ActivityModelPapersBinding;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
-public class AddTopicsActivity extends AppCompatActivity {
-    ActivityAddTopicsBinding binding;
+public class ModelPapersActivity extends AppCompatActivity {
+    ActivityModelPapersBinding binding;
     ArrayList<TopicsModel> list;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityAddTopicsBinding.inflate(getLayoutInflater());
+        binding = ActivityModelPapersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.toolbar.title.setText("Topics List");
@@ -53,10 +53,11 @@ public class AddTopicsActivity extends AppCompatActivity {
 
     }
 
+
     private void showDialog() {
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.add_topic);
+        dialog.setContentView(R.layout.add_topic_model);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -65,7 +66,6 @@ public class AddTopicsActivity extends AppCompatActivity {
 
         TextInputLayout topic = dialog.findViewById(R.id.topic);
         Button complete = dialog.findViewById(R.id.complete);
-        ChipGroup chipGroup = dialog.findViewById(R.id.contentType);
 
         complete.setOnClickListener(v -> {
             String topicName = topic.getEditText().getText().toString();
@@ -73,30 +73,20 @@ public class AddTopicsActivity extends AppCompatActivity {
                 dialog.dismiss();
                 Constants.showDialog();
 
-                String s = "";
-
-                for (int i = 0; i < chipGroup.getChildCount(); i++) {
-                    Chip chip = (Chip) chipGroup.getChildAt(i);
-                    if (chip.isChecked()){
-                        s = chip.getText().toString();
-                    }
-                }
-
-                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, s);
-                Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).child(s).child(model.getID()).setValue(model)
+                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, "Model Papers");
+                Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.TOPICS).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
-                            Toast.makeText(AddTopicsActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ModelPapersActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
                         }).addOnFailureListener(e -> {
                             Constants.dismissDialog();
-                            Toast.makeText(AddTopicsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ModelPapersActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
             } else {
                 topic.setErrorEnabled(true);
                 topic.setError("Topic name is empty");
             }
         });
-
     }
 
     @Override
@@ -104,18 +94,16 @@ public class AddTopicsActivity extends AppCompatActivity {
         super.onResume();
         Constants.initDialog(this);
         Constants.showDialog();
-
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).addValueEventListener(new ValueEventListener() {
+        String name = Stash.getString(Constants.SELECT, Constants.URDU);
+        Constants.databaseReference().child(name).child(Constants.MODEL_PAPERS).child(Constants.TOPICS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Constants.dismissDialog();
                 if (snapshot.exists()) {
                     list.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
-                            TopicsModel topicsModel = dataSnapshot2.getValue(TopicsModel.class);
-                            list.add(topicsModel);
-                        }
+                        TopicsModel topicsModel = dataSnapshot.getValue(TopicsModel.class);
+                        list.add(topicsModel);
                     }
 
                     if (list.size() > 0){
@@ -127,7 +115,7 @@ public class AddTopicsActivity extends AppCompatActivity {
                         binding.noLayout.setVisibility(View.VISIBLE);
                     }
 
-                    TopicsAdapter adapter = new TopicsAdapter(AddTopicsActivity.this, list);
+                    ModelTopicsAdapter adapter = new ModelTopicsAdapter(ModelPapersActivity.this, list);
                     binding.topics.setAdapter(adapter);
                 }
             }
@@ -135,9 +123,10 @@ public class AddTopicsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError e) {
                 Constants.dismissDialog();
-                Toast.makeText(AddTopicsActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ModelPapersActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
 }

@@ -118,8 +118,7 @@ public class EditContentActivity extends AppCompatActivity {
                 binding.heading.getEditText().getText().toString(),
                 binding.note.getEditText().getText().toString(), hasOptions, haveRows, options, rows);
 
-        String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.CONTENT).child(model.getID()).setValue(contentModel)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(model.getID()).setValue(contentModel)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(EditContentActivity.this, "Content Updated Successfully", Toast.LENGTH_SHORT).show();

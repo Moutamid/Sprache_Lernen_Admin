@@ -1,5 +1,6 @@
 package com.moutamid.sprachelernenadmin;
 
+import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.moutamid.sprachelernenadmin.R;
@@ -13,6 +14,8 @@ import android.os.Build;
 import android.view.Window;
 
 import androidx.appcompat.app.AlertDialog;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,9 +31,10 @@ import java.util.Locale;
 public class Constants {
 
     static Dialog dialog;
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DATE_FORMAT = "dd_MM_yyyy_hh_mm_ss";
     public static final String SELECT = "SELECT";
     public static final String TOPICS = "TOPICS";
+    public static final String MODEL_PAPERS = "MODEL_PAPERS";
     public static final String URDU = "URDU";
     public static final String CONTENT = "CONTENT";
     public static final String EXERCISE = "EXERCISE";
@@ -82,9 +86,7 @@ public class Constants {
             StringBuffer stringBuffer = new StringBuffer();
             while (true) {
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        if ((input = in != null ? in.readLine() : null) == null) break;
-                    }
+                    if ((input = in != null ? in.readLine() : null) == null) break;
                 } catch (final IOException e) {
                     e.printStackTrace();
                 }
@@ -125,5 +127,13 @@ public class Constants {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference().child("sprachelernen");
         db.keepSynced(true);
         return db;
+    }
+
+    public static StorageReference storageReference() {
+        return FirebaseStorage.getInstance().getReference().child("sprachelernen");
+    }
+
+    public static String getLang() {
+        return Stash.getString(Constants.SELECT, Constants.URDU);
     }
 }

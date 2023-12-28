@@ -51,8 +51,8 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
                     .setPositiveButton("Yes", ((dialog, which) -> {
                         dialog.dismiss();
                         Constants.showDialog();
-                        String name = Stash.getString(Constants.SELECT, Constants.URDU);
-                        Constants.databaseReference().child(name).child(Constants.EXERCISE_LIST).child(model.getLevel()).child(model.getID()).removeValue()
+
+                        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE_LIST).child(model.getLevel()).child(model.getID()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Constants.dismissDialog();
                                     Toast.makeText(context, "Exercise Deleted Successfully", Toast.LENGTH_SHORT).show();

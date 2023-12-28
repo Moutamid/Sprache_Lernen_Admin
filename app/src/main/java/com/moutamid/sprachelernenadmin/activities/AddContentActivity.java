@@ -79,8 +79,7 @@ public class AddContentActivity extends AppCompatActivity {
                 binding.heading.getEditText().getText().toString(),
                 binding.note.getEditText().getText().toString(), hasOptions, haveRows, options, rows);
 
-        String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.CONTENT).child(topicsModel.getContentType()).child(model.getID()).setValue(model)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(topicsModel.getContentType()).child(model.getID()).setValue(model)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(AddContentActivity.this, "Content Added Successfully", Toast.LENGTH_SHORT).show();

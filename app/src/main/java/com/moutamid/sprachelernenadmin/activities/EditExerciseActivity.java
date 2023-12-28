@@ -54,8 +54,8 @@ public class EditExerciseActivity extends AppCompatActivity {
                     isMultipleChecked, isFTBChecked, isReorderChecked
             );
             Constants.showDialog();
-            String name = Stash.getString(Constants.SELECT, Constants.URDU);
-            Constants.databaseReference().child(name).child(Constants.EXERCISE).child(model.getID()).setValue(exerciseModel)
+
+            Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(model.getID()).setValue(exerciseModel)
                     .addOnSuccessListener(unused -> {
                         Constants.dismissDialog();
                         Toast.makeText(EditExerciseActivity.this, "Exercise Updated Successfully", Toast.LENGTH_SHORT).show();

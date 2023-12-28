@@ -47,8 +47,7 @@ public class ViewContentActivity extends AppCompatActivity {
 
     private void getContent() {
         Constants.showDialog();
-        String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.CONTENT).addValueEventListener(new ValueEventListener() {
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Constants.dismissDialog();
