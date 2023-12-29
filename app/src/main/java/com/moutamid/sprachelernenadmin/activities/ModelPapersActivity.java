@@ -70,7 +70,7 @@ public class ModelPapersActivity extends AppCompatActivity {
                 dialog.dismiss();
                 Constants.showDialog();
 
-                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, "Model Papers");
+                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, "Vocabulary");
                 Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.TOPICS).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
