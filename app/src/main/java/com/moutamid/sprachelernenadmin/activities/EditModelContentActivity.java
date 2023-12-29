@@ -18,7 +18,6 @@ import com.moutamid.sprachelernenadmin.models.ModelContent;
 
 import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 public class EditModelContentActivity extends AppCompatActivity {
     ActivityEditModelContentBinding binding;
@@ -116,7 +115,7 @@ public class EditModelContentActivity extends AppCompatActivity {
                 binding.nameGerman.getEditText().getText().toString(),
                 imagePath, audioPath
         );
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.CONTENT).child(model.getTopicID()).child(modelContent.getID()).setValue(modelContent)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(model.getTopicID()).child(modelContent.getID()).setValue(modelContent)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(this, "Content Updated Successfully", Toast.LENGTH_SHORT).show();

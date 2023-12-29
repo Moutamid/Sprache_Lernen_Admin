@@ -58,7 +58,9 @@ public class EditContentActivity extends AppCompatActivity {
         binding.addRow.setOnClickListener(v -> addRow());
 
         binding.next.setOnClickListener(v -> {
-            uploadData(model);
+            if (valid()){
+                uploadData(model);
+            }
         });
 
     }
@@ -104,6 +106,32 @@ public class EditContentActivity extends AppCompatActivity {
             }
         }
 
+    }
+
+    private boolean valid() {
+        if (binding.showTable.isChecked()) {
+            retrieveDataForRows();
+            if (!(rows.size()>=1)) {
+                Toast.makeText(this, "Please add 1 row data", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        if (binding.showList.isChecked()) {
+            retrieveDataForOptions();
+            if (!(options.size()>=1)) {
+                Toast.makeText(this, "Please add 1 option data", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        if (binding.heading.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Heading is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.note.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void uploadData(ContentModel model) {

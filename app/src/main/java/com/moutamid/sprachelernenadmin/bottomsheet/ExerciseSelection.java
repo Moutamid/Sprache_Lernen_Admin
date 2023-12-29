@@ -29,6 +29,7 @@ import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class ExerciseSelection extends BottomSheetDialogFragment {
     String level;
@@ -72,6 +73,14 @@ public class ExerciseSelection extends BottomSheetDialogFragment {
                             topicList.setVisibility(View.GONE);
                             progress.setVisibility(View.VISIBLE);
                         }
+
+                        Collections.sort(list, new Comparator<Exercise>() {
+                            @Override
+                            public int compare(Exercise o1, Exercise o2) {
+                                return o1.getName().compareTo(o2.getName());
+                            }
+                        });
+
                         ExListAdapter adapter = new ExListAdapter(requireContext(), list, model -> {
                             dismiss();
                             startActivity(new Intent(requireContext(), AddExerciseActivity.class).putExtra(Constants.LEVEL, level).putExtra(Constants.exercise, model.getName()));

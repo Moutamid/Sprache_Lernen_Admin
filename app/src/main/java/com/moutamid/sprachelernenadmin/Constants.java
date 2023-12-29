@@ -3,14 +3,11 @@ package com.moutamid.sprachelernenadmin;
 import com.fxn.stash.Stash;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.moutamid.sprachelernenadmin.R;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.Window;
 
 import androidx.appcompat.app.AlertDialog;
@@ -34,7 +31,7 @@ public class Constants {
     public static final String DATE_FORMAT = "dd_MM_yyyy_hh_mm_ss";
     public static final String SELECT = "SELECT";
     public static final String TOPICS = "TOPICS";
-    public static final String MODEL_PAPERS = "MODEL_PAPERS";
+    public static final String VOCABULARY = "VOCABULARY";
     public static final String URDU = "URDU";
     public static final String CONTENT = "CONTENT";
     public static final String EXERCISE = "EXERCISE";

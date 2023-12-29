@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.fxn.stash.Stash;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.adapters.ModelTopicsAdapter;
-import com.moutamid.sprachelernenadmin.adapters.TopicsAdapter;
 import com.moutamid.sprachelernenadmin.databinding.ActivityModelPapersBinding;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
@@ -74,7 +71,7 @@ public class ModelPapersActivity extends AppCompatActivity {
                 Constants.showDialog();
 
                 TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, "Model Papers");
-                Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.TOPICS).child(model.getID()).setValue(model)
+                Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.TOPICS).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
                             Toast.makeText(ModelPapersActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
@@ -95,7 +92,7 @@ public class ModelPapersActivity extends AppCompatActivity {
         Constants.initDialog(this);
         Constants.showDialog();
         String name = Stash.getString(Constants.SELECT, Constants.URDU);
-        Constants.databaseReference().child(name).child(Constants.MODEL_PAPERS).child(Constants.TOPICS).addValueEventListener(new ValueEventListener() {
+        Constants.databaseReference().child(name).child(Constants.VOCABULARY).child(Constants.TOPICS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Constants.dismissDialog();

@@ -13,11 +13,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
-import com.moutamid.sprachelernenadmin.R;
-import com.moutamid.sprachelernenadmin.adapters.ContentAdapters;
 import com.moutamid.sprachelernenadmin.adapters.ModelContentAdapters;
 import com.moutamid.sprachelernenadmin.databinding.ActivityModelContentBinding;
-import com.moutamid.sprachelernenadmin.models.ContentModel;
 import com.moutamid.sprachelernenadmin.models.ModelContent;
 
 import java.util.ArrayList;
@@ -72,7 +69,7 @@ public class ModelContentActivity extends AppCompatActivity {
 
     private void getContent() {
         Constants.showDialog();
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.CONTENT).child(ID)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(ID)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

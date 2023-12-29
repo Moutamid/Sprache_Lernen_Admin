@@ -1,12 +1,12 @@
 package com.moutamid.sprachelernenadmin.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.fxn.stash.Stash;
 import com.google.android.material.textfield.TextInputLayout;
@@ -17,7 +17,6 @@ import com.moutamid.sprachelernenadmin.models.ContentModel;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class AddContentActivity extends AppCompatActivity {
     ActivityAddContentBinding binding;
@@ -60,9 +59,36 @@ public class AddContentActivity extends AppCompatActivity {
         binding.addRow.setOnClickListener(v -> addRow());
 
         binding.next.setOnClickListener(v -> {
-            uploadData();
+            if (valid())
+                uploadData();
         });
 
+    }
+
+    private boolean valid() {
+        if (binding.showTable.isChecked()) {
+            retrieveDataForRows();
+            if (!(rows.size()>=1)) {
+                Toast.makeText(this, "Please add 1 row data", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        if (binding.showList.isChecked()) {
+            retrieveDataForOptions();
+            if (!(options.size()>=1)) {
+                Toast.makeText(this, "Please add 1 option data", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        if (binding.heading.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Heading is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.note.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void uploadData() {

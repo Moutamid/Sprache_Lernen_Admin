@@ -16,18 +16,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fxn.stash.Stash;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.activities.ModelContentActivity;
-import com.moutamid.sprachelernenadmin.activities.ModelPapersActivity;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.ModelTopicsVH> {
 
@@ -74,7 +71,7 @@ public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.
                     dialog.dismiss();
                     Constants.showDialog();
                     model.setTopicName(topicName);
-                    Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.TOPICS).child(model.getID()).setValue(model)
+                    Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.TOPICS).child(model.getID()).setValue(model)
                             .addOnSuccessListener(unused -> {
                                 Constants.dismissDialog();
                                 Toast.makeText(context, "Topic Updated Successfully", Toast.LENGTH_SHORT).show();
@@ -101,7 +98,7 @@ public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.
                         dialog.dismiss();
                         Constants.showDialog();
 
-                        Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.TOPICS).child(model.getID()).removeValue()
+                        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.TOPICS).child(model.getID()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Constants.dismissDialog();
                                     Toast.makeText(context, "Topic Deleted Successfully", Toast.LENGTH_SHORT).show();

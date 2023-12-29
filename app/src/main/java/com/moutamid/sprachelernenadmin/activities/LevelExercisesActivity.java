@@ -32,6 +32,7 @@ import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class LevelExercisesActivity extends AppCompatActivity {
@@ -136,6 +137,13 @@ public class LevelExercisesActivity extends AppCompatActivity {
                         binding.topics.setVisibility(View.GONE);
                         binding.noLayout.setVisibility(View.VISIBLE);
                     }
+
+                    Collections.sort(list, new Comparator<Exercise>() {
+                        @Override
+                        public int compare(Exercise o1, Exercise o2) {
+                            return o1.getName().compareTo(o2.getName());
+                        }
+                    });
 
                     ExerciseListAdapter adapter = new ExerciseListAdapter(LevelExercisesActivity.this, list);
                     binding.topics.setAdapter(adapter);

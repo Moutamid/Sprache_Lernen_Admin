@@ -84,7 +84,7 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
                     .setPositiveButton("Yes", ((dialog, which) -> {
                         dialog.dismiss();
                         Constants.showDialog();
-                        Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).child(Constants.CONTENT).child(model.getTopicID()).child(model.getID()).removeValue()
+                        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(model.getTopicID()).child(model.getID()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Constants.dismissDialog();
                                     Toast.makeText(context, "Content Deleted Successfully", Toast.LENGTH_SHORT).show();
