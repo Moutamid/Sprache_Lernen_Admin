@@ -131,7 +131,7 @@ public class AddModelContentActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 // Get the selected audio file URI
                 audio = data.getData();
-                binding.audioFile.setText(getFileName(audio));
+                binding.audioFile.setText(Constants.getFileName(this,audio));
             }
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
@@ -140,22 +140,6 @@ public class AddModelContentActivity extends AppCompatActivity {
                 Glide.with(AddModelContentActivity.this).load(image).placeholder(R.drawable.image).into(binding.imageView);
             }
         }
-    }
-
-    private String getFileName(Uri uri) {
-        String result = null;
-        if (Objects.equals(uri.getScheme(), "content")) {
-            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    result = cursor.getString(index);
-                }
-            }
-        }
-        if (result == null) {
-            result = uri.getLastPathSegment();
-        }
-        return result;
     }
 
 }

@@ -14,21 +14,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.adapters.ModelContentAdapters;
-import com.moutamid.sprachelernenadmin.databinding.ActivityModelContentBinding;
+import com.moutamid.sprachelernenadmin.databinding.ActivityVocabularyContentBinding;
 import com.moutamid.sprachelernenadmin.models.ModelContent;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ModelContentActivity extends AppCompatActivity {
-    ActivityModelContentBinding binding;
+public class VocabularyContentActivity extends AppCompatActivity {
+    ActivityVocabularyContentBinding binding;
     String ID;
     ArrayList<ModelContent> list;
     ModelContentAdapters adapters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityModelContentBinding.inflate(getLayoutInflater());
+        binding = ActivityVocabularyContentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ID = getIntent().getStringExtra(Constants.TOPICS);
@@ -90,7 +90,7 @@ public class ModelContentActivity extends AppCompatActivity {
                                 binding.noLayout.setVisibility(View.VISIBLE);
                             }
 
-                            adapters = new ModelContentAdapters(ModelContentActivity.this, list);
+                            adapters = new ModelContentAdapters(VocabularyContentActivity.this, list);
                             binding.topics.setAdapter(adapters);
                         }
                     }
@@ -98,7 +98,7 @@ public class ModelContentActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError e) {
                         Constants.dismissDialog();
-                        Toast.makeText(ModelContentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(VocabularyContentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

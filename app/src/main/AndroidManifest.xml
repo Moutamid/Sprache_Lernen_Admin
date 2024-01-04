@@ -16,16 +16,25 @@
         android:theme="@style/Theme.SpracheLernenAdmin"
         tools:targetApi="31">
         <activity
+            android:name=".activities.WritingEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.WrittingContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.WritingActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.EditModelContentActivity"
             android:exported="false" />
         <activity
             android:name=".activities.AddModelContentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ModelContentActivity"
+            android:name=".activities.VocabularyContentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.ModelPapersActivity"
+            android:name=".activities.VocabularyActivity"
             android:exported="false" />
         <activity
             android:name=".activities.TrialEditActivity"

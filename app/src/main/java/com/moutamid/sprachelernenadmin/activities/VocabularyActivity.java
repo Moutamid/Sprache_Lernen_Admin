@@ -22,20 +22,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.adapters.ModelTopicsAdapter;
-import com.moutamid.sprachelernenadmin.databinding.ActivityModelPapersBinding;
+import com.moutamid.sprachelernenadmin.databinding.ActivityVocabularyPapersBinding;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.UUID;
 
-public class ModelPapersActivity extends AppCompatActivity {
-    ActivityModelPapersBinding binding;
+public class VocabularyActivity extends AppCompatActivity {
+    ActivityVocabularyPapersBinding binding;
     ArrayList<TopicsModel> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityModelPapersBinding.inflate(getLayoutInflater());
+        binding = ActivityVocabularyPapersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.toolbar.title.setText("Topics List");
@@ -74,10 +74,10 @@ public class ModelPapersActivity extends AppCompatActivity {
                 Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.TOPICS).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
-                            Toast.makeText(ModelPapersActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VocabularyActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
                         }).addOnFailureListener(e -> {
                             Constants.dismissDialog();
-                            Toast.makeText(ModelPapersActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(VocabularyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
             } else {
                 topic.setErrorEnabled(true);
@@ -112,7 +112,7 @@ public class ModelPapersActivity extends AppCompatActivity {
                         binding.noLayout.setVisibility(View.VISIBLE);
                     }
 
-                    ModelTopicsAdapter adapter = new ModelTopicsAdapter(ModelPapersActivity.this, list);
+                    ModelTopicsAdapter adapter = new ModelTopicsAdapter(VocabularyActivity.this, list);
                     binding.topics.setAdapter(adapter);
                 }
             }
@@ -120,7 +120,7 @@ public class ModelPapersActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError e) {
                 Constants.dismissDialog();
-                Toast.makeText(ModelPapersActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(VocabularyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -7,7 +7,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.view.Window;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Constants {
 
@@ -31,6 +35,8 @@ public class Constants {
     public static final String DATE_FORMAT = "dd_MM_yyyy_hh_mm_ss";
     public static final String SELECT = "SELECT";
     public static final String TOPICS = "TOPICS";
+    public static final String ID = "ID";
+    public static final String WRITING = "WRITING";
     public static final String VOCABULARY = "VOCABULARY";
     public static final String URDU = "URDU";
     public static final String CONTENT = "CONTENT";
@@ -61,6 +67,22 @@ public class Constants {
 
     public static void dismissDialog() {
         dialog.dismiss();
+    }
+
+    public static String getFileName(Context context, Uri uri) {
+        String result = null;
+        if (Objects.equals(uri.getScheme(), "content")) {
+            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    result = cursor.getString(index);
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
     }
 
     public static void checkApp(Activity activity) {

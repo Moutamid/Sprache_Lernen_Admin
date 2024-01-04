@@ -21,7 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
-import com.moutamid.sprachelernenadmin.activities.ModelContentActivity;
+import com.moutamid.sprachelernenadmin.activities.VocabularyContentActivity;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.
         holder.content.setText(model.getContentType());
 
         holder.itemView.setOnClickListener(v -> {
-            context.startActivity(new Intent(context, ModelContentActivity.class).putExtra(Constants.TOPICS, model.getID()));
+            context.startActivity(new Intent(context, VocabularyContentActivity.class).putExtra(Constants.TOPICS, model.getID()));
         });
 
         holder.itemView.setOnLongClickListener(v -> {

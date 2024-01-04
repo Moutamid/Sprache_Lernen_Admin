@@ -5,20 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".activities.ModelContentActivity">
+    tools:context=".activities.VocabularyActivity">
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
+    <TextView
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="12dp"
+        android:layout_marginHorizontal="21dp"
+        android:layout_below="@id/toolbar"
+        android:text="Click and hold to update"
+        android:textSize="16sp" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/topics"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/toolbar"
-        android:layout_margin="21dp"
-        android:visibility="gone"
-        tools:listitem="@layout/model_content" />
+        android:layout_below="@id/head"
+        android:layout_marginHorizontal="21dp"
+        android:layout_marginBottom="21dp"
+        tools:listitem="@layout/item" />
 
     <LinearLayout
         android:id="@+id/noLayout"
@@ -42,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:gravity="center"
-            android:text="No Content found!"
+            android:text="No topic found!"
             android:textSize="16sp" />
 
     </LinearLayout>
@@ -57,6 +68,5 @@
         android:src="@drawable/round_add_24"
         app:backgroundTint="@color/blue"
         app:tint="@color/white" />
-
 
 </RelativeLayout>

@@ -41,7 +41,7 @@ public class AddTopicsActivity extends AppCompatActivity {
         binding = ActivityAddTopicsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.toolbar.title.setText("Topics List");
+        binding.toolbar.title.setText("Speaking");
         binding.toolbar.back.setOnClickListener(v -> onBackPressed());
 
         list = new ArrayList<>();
@@ -65,23 +65,13 @@ public class AddTopicsActivity extends AppCompatActivity {
 
         TextInputLayout topic = dialog.findViewById(R.id.topic);
         Button complete = dialog.findViewById(R.id.complete);
-        ChipGroup chipGroup = dialog.findViewById(R.id.contentType);
 
         complete.setOnClickListener(v -> {
             String topicName = topic.getEditText().getText().toString();
             if (!topicName.isEmpty()) {
                 dialog.dismiss();
                 Constants.showDialog();
-
-                String s = "";
-
-                for (int i = 0; i < chipGroup.getChildCount(); i++) {
-                    Chip chip = (Chip) chipGroup.getChildAt(i);
-                    if (chip.isChecked()){
-                        s = chip.getText().toString();
-                    }
-                }
-
+                String s = "Speaking";
                 TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, s);
                 Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).child(s).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {

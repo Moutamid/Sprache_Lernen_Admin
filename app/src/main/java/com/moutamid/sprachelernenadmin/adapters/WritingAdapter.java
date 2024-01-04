@@ -16,44 +16,47 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
-import com.moutamid.sprachelernenadmin.activities.AddContentActivity;
-import com.moutamid.sprachelernenadmin.models.TopicsModel;
-
-import org.w3c.dom.Text;
+import com.moutamid.sprachelernenadmin.activities.EditContentActivity;
+import com.moutamid.sprachelernenadmin.activities.WritingEditActivity;
+import com.moutamid.sprachelernenadmin.models.WritingModel;
 
 import java.util.ArrayList;
 
-public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.TopicVH> {
+public class WritingAdapter extends RecyclerView.Adapter<WritingAdapter.ContentVH> {
     Context context;
-    ArrayList<TopicsModel> list;
+    ArrayList<WritingModel> list;
 
-    public TopicsAdapter(Context context, ArrayList<TopicsModel> list) {
+    public WritingAdapter(Context context, ArrayList<WritingModel> list) {
         this.context = context;
         this.list = list;
     }
 
     @NonNull
     @Override
-    public TopicVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TopicVH(LayoutInflater.from(context).inflate(R.layout.item, parent, false));
+    public ContentVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new ContentVH(LayoutInflater.from(context).inflate(R.layout.content, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TopicVH holder, int position) {
-        TopicsModel model = list.get(holder.getAdapterPosition());
-        holder.name.setText(model.getTopicName());
-        holder.content.setText(model.getContentType());
+    public void onBindViewHolder(@NonNull ContentVH holder, int position) {
+        WritingModel model = list.get(holder.getAdapterPosition());
+        holder.topic.setText("Writing");
+        holder.heading.setText(model.getTopic());
+        holder.note.setText(model.getLetter());
+
+        holder.edit.setOnClickListener(v -> {
+            context.startActivity(new Intent(context, WritingEditActivity.class).putExtra(Constants.ID, model.getId()));
+        });
 
         holder.delete.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(context)
                     .setCancelable(true)
-                    .setTitle("Delete " + model.getTopicName())
-                    .setMessage("Are you sure you want to delete this topic.\nThe content of this topic will also be deleted.")
-                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .setTitle("Delete Topic Content")
+                    .setMessage("Are You Sure you want to delete this?")
                     .setPositiveButton("Yes", ((dialog, which) -> {
                         dialog.dismiss();
                         Constants.showDialog();
-                        Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).child(model.getContentType()).child(model.getID()).removeValue()
+                        Constants.databaseReference().child(Constants.getLang()).child(Constants.WRITING).child(model.getId()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Constants.dismissDialog();
                                     Toast.makeText(context, "Topic Deleted Successfully", Toast.LENGTH_SHORT).show();
@@ -62,14 +65,9 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.TopicVH> {
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 });
                     }))
+                    .setNegativeButton("No", ((dialog, which) -> dialog.dismiss()))
                     .show();
         });
-
-        holder.itemView.setOnClickListener(v -> {
-            Stash.put(Constants.PASS, model);
-            context.startActivity(new Intent(context, AddContentActivity.class));
-        });
-
     }
 
     @Override
@@ -77,16 +75,17 @@ public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.TopicVH> {
         return list.size();
     }
 
-    public class TopicVH extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView content;
-        MaterialCardView delete;
+    public class ContentVH extends RecyclerView.ViewHolder {
+        TextView topic, heading, note;
+        MaterialCardView delete, edit;
 
-        public TopicVH(@NonNull View itemView) {
+        public ContentVH(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.text);
-            content = itemView.findViewById(R.id.content);
+            topic = itemView.findViewById(R.id.topic);
+            heading = itemView.findViewById(R.id.heading);
+            note = itemView.findViewById(R.id.note);
             delete = itemView.findViewById(R.id.delete);
+            edit = itemView.findViewById(R.id.edit);
         }
     }
 
