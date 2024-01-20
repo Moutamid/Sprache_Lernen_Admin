@@ -22,7 +22,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.activities.EditModelContentActivity;
-import com.moutamid.sprachelernenadmin.models.ModelContent;
+import com.moutamid.sprachelernenadmin.models.VocabularyModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,12 +30,12 @@ import java.util.ArrayList;
 public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapters.ContentVH> {
 
     Context context;
-    ArrayList<ModelContent> list;
+    ArrayList<VocabularyModel> list;
     MediaPlayer mediaPlayer;
     int playingPosition = -1;
     private Handler handler = new Handler();
 
-    public ModelContentAdapters(Context context, ArrayList<ModelContent> list) {
+    public ModelContentAdapters(Context context, ArrayList<VocabularyModel> list) {
         this.context = context;
         this.list = list;
         this.mediaPlayer = new MediaPlayer();
@@ -49,7 +49,7 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ContentVH holder, int position) {
-        ModelContent model = list.get(holder.getAdapterPosition());
+        VocabularyModel model = list.get(holder.getAdapterPosition());
 
         holder.name.setText(model.getName());
         holder.german.setText(model.getNameGerman());
@@ -60,6 +60,17 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
         });
 
         Glide.with(context).load(model.getImage()).into(holder.imageView);
+
+        holder.pakistanFlag.setOnClickListener(v -> {
+            holder.selectedFlag = true;
+            holder.pakistanFlag.setStrokeColor(context.getResources().getColor(R.color.green));
+            holder.germanFlag.setStrokeColor(context.getResources().getColor(R.color.grey));
+        });
+        holder.germanFlag.setOnClickListener(v -> {
+            holder.selectedFlag = false;
+            holder.pakistanFlag.setStrokeColor(context.getResources().getColor(R.color.grey));
+            holder.germanFlag.setStrokeColor(context.getResources().getColor(R.color.green));
+        });
 
         holder.play.setOnClickListener(v -> {
             if (mediaPlayer.isPlaying()) {
@@ -73,7 +84,8 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
             }
 //            holder.playIcon.setImageResource(R.drawable.round_pause_24);
             playingPosition = position;
-            playAudio(model.getAudio(), holder.progress);
+            String audio = holder.selectedFlag ? model.getAudio() : model.getGermanAudio();
+            playAudio(audio, holder.progress);
         });
 
         holder.delete.setOnClickListener(v -> {
@@ -111,6 +123,8 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
                 updateProgress(progress);
             });
 
+            mediaPlayer.setOnCompletionListener(mp -> progress.setProgress(0, true));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -147,9 +161,13 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
         MaterialCardView delete, edit, play;
         LinearProgressIndicator progress;
         ImageView imageView, playIcon;
-
+        MaterialCardView germanFlag, pakistanFlag;
+        boolean selectedFlag;
         public ContentVH(@NonNull View itemView) {
             super(itemView);
+
+            selectedFlag = true;
+
             name = itemView.findViewById(R.id.name);
             german = itemView.findViewById(R.id.german);
             delete = itemView.findViewById(R.id.delete);
@@ -158,6 +176,8 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
             playIcon = itemView.findViewById(R.id.playIcon);
             progress = itemView.findViewById(R.id.progress);
             imageView = itemView.findViewById(R.id.imageView);
+            pakistanFlag = itemView.findViewById(R.id.pakistanFlag);
+            germanFlag = itemView.findViewById(R.id.germanFlag);
         }
     }
 

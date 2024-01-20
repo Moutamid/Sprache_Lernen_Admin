@@ -14,18 +14,19 @@ import com.fxn.stash.Stash;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityEditModelContentBinding;
-import com.moutamid.sprachelernenadmin.models.ModelContent;
+import com.moutamid.sprachelernenadmin.models.VocabularyModel;
 
 import java.util.Date;
 import java.util.Objects;
 
 public class EditModelContentActivity extends AppCompatActivity {
     ActivityEditModelContentBinding binding;
-    ModelContent model;
-    Uri image, audio;
+    VocabularyModel model;
+    Uri image, audio, germanAudio;
     private static final int PICK_AUDIO_REQUEST = 1;
-    private static final int PICK_IMAGE_REQUEST = 2;
-    String imagePath, audioPath;
+    private static final int PICK_GERMAN_AUDIO_REQUEST = 2;
+    private static final int PICK_IMAGE_REQUEST = 3;
+    String imagePath, audioPath, germanAudioPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +35,7 @@ public class EditModelContentActivity extends AppCompatActivity {
 
         Constants.initDialog(this);
 
-        model = (ModelContent) Stash.getObject(Constants.PASS_CONTENT, ModelContent.class);
+        model = (VocabularyModel) Stash.getObject(Constants.PASS_CONTENT, VocabularyModel.class);
 
         binding.toolbar.title.setText("Model Content");
         binding.toolbar.back.setOnClickListener(v -> onBackPressed());
@@ -46,6 +47,13 @@ public class EditModelContentActivity extends AppCompatActivity {
             intent.setType("audio/*");
             startActivityForResult(Intent.createChooser(intent, "Select Audio File"), PICK_AUDIO_REQUEST);
         });
+
+        binding.german.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("audio/*");
+            startActivityForResult(Intent.createChooser(intent, "Select Audio File"), PICK_GERMAN_AUDIO_REQUEST);
+        });
+
 
         binding.upload.setOnClickListener(v -> {
             if (valid()) {
@@ -69,8 +77,10 @@ public class EditModelContentActivity extends AppCompatActivity {
         Glide.with(EditModelContentActivity.this).load(model.getImage()).placeholder(R.drawable.image).into(binding.imageView);
 
         String fileName = extractFileName(model.getAudio());
+        String gName = extractFileName(model.getGermanAudio());
 
         binding.audioFile.setText(fileName + ".mp3");
+        binding.audioFileGerman.setText(gName + ".mp3");
 
     }
 
@@ -100,7 +110,16 @@ public class EditModelContentActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                         audioPath = uri.toString();
-                        uploadData();
+                        Constants.storageReference().child("audio").child(Constants.getFormattedDate(new Date().getTime())).putFile(germanAudio)
+                                .addOnSuccessListener(taskSnapshot2 -> {
+                                    taskSnapshot2.getStorage().getDownloadUrl().addOnSuccessListener(uri2 -> {
+                                        germanAudioPath = uri2.toString();
+                                        uploadData();
+                                    });
+                                }).addOnFailureListener(e -> {
+                                    Constants.dismissDialog();
+                                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
                     });
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
@@ -109,13 +128,13 @@ public class EditModelContentActivity extends AppCompatActivity {
     }
 
     private void uploadData() {
-        ModelContent modelContent = new ModelContent(
+        VocabularyModel vocabularyModel = new VocabularyModel(
                 model.getID(), model.getTopicID(),
                 binding.name.getEditText().getText().toString(),
                 binding.nameGerman.getEditText().getText().toString(),
-                imagePath, audioPath
+                imagePath, audioPath, germanAudioPath
         );
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(model.getTopicID()).child(modelContent.getID()).setValue(modelContent)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(model.getTopicID()).child(vocabularyModel.getID()).setValue(vocabularyModel)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(this, "Content Updated Successfully", Toast.LENGTH_SHORT).show();
@@ -153,6 +172,12 @@ public class EditModelContentActivity extends AppCompatActivity {
                 // Get the selected audio file URI
                 audio = data.getData();
                 binding.audioFile.setText(getFileName(audio));
+            }
+        } else if (requestCode == PICK_GERMAN_AUDIO_REQUEST && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                // Get the selected audio file URI
+                germanAudio = data.getData();
+                binding.audioFileGerman.setText(Constants.getFileName(this,germanAudio));
             }
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {

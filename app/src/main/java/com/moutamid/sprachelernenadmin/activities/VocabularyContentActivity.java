@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.adapters.ModelContentAdapters;
 import com.moutamid.sprachelernenadmin.databinding.ActivityVocabularyContentBinding;
-import com.moutamid.sprachelernenadmin.models.ModelContent;
+import com.moutamid.sprachelernenadmin.models.VocabularyModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +23,7 @@ import java.util.Collections;
 public class VocabularyContentActivity extends AppCompatActivity {
     ActivityVocabularyContentBinding binding;
     String ID;
-    ArrayList<ModelContent> list;
+    ArrayList<VocabularyModel> list;
     ModelContentAdapters adapters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class VocabularyContentActivity extends AppCompatActivity {
                         if (dataSnapshot.exists()) {
                             list.clear();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                ModelContent model = snapshot.getValue(ModelContent.class);
+                                VocabularyModel model = snapshot.getValue(VocabularyModel.class);
                                 list.add(model);
                             }
 

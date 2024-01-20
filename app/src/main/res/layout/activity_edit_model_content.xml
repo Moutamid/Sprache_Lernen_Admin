@@ -93,17 +93,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                tools:text="File Name" />
+                tools:text="Urdu Audio Empty" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/audio"
+            <TextView
+                android:id="@+id/audioFileGerman"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:layout_marginTop="12dp"
-                app:backgroundTint="@color/green"
-                android:text="Upload Audio"
-                android:textSize="18sp" />
+                android:layout_marginTop="10dp"
+                android:text="German Audio Empty" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/audio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="12dp"
+                    app:backgroundTint="@color/green"
+                    android:text="Urdu Audio"
+                    android:textSize="16sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/german"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="12dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="12dp"
+                    app:backgroundTint="@color/green"
+                    android:text="German Audio"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/upload"

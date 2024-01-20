@@ -1,10 +1,8 @@
 package com.moutamid.sprachelernenadmin.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.OpenableColumns;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,19 +11,19 @@ import com.bumptech.glide.Glide;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddModelContentBinding;
-import com.moutamid.sprachelernenadmin.models.ModelContent;
+import com.moutamid.sprachelernenadmin.models.VocabularyModel;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.UUID;
 
 public class AddModelContentActivity extends AppCompatActivity {
     ActivityAddModelContentBinding binding;
     String ID;
-    Uri image, audio;
+    Uri image, audio, germanAudio;
     private static final int PICK_AUDIO_REQUEST = 1;
-    private static final int PICK_IMAGE_REQUEST = 2;
-    String imagePath, audioPath;
+    private static final int PICK_GERMAN_AUDIO_REQUEST = 2;
+    private static final int PICK_IMAGE_REQUEST = 3;
+    String imagePath, audioPath, germanAudioPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +41,11 @@ public class AddModelContentActivity extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.setType("audio/*");
             startActivityForResult(Intent.createChooser(intent, "Select Audio File"), PICK_AUDIO_REQUEST);
+        });
+        binding.german.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("audio/*");
+            startActivityForResult(Intent.createChooser(intent, "Select Audio File"), PICK_GERMAN_AUDIO_REQUEST);
         });
 
         binding.upload.setOnClickListener(v -> {
@@ -78,7 +81,16 @@ public class AddModelContentActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                         audioPath = uri.toString();
-                        uploadData();
+                        Constants.storageReference().child("audio").child(Constants.getFormattedDate(new Date().getTime())).putFile(germanAudio)
+                                .addOnSuccessListener(taskSnapshot2 -> {
+                                    taskSnapshot2.getStorage().getDownloadUrl().addOnSuccessListener(uri2 -> {
+                                        germanAudioPath = uri2.toString();
+                                        uploadData();
+                                    });
+                                }).addOnFailureListener(e -> {
+                                    Constants.dismissDialog();
+                                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
                     });
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
@@ -87,13 +99,13 @@ public class AddModelContentActivity extends AppCompatActivity {
     }
 
     private void uploadData() {
-        ModelContent modelContent = new ModelContent(
+        VocabularyModel vocabularyModel = new VocabularyModel(
                 UUID.randomUUID().toString(), ID,
                 binding.name.getEditText().getText().toString(),
                 binding.nameGerman.getEditText().getText().toString(),
-                imagePath, audioPath
+                imagePath, audioPath, germanAudioPath
         );
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(ID).child(modelContent.getID()).setValue(modelContent)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(ID).child(vocabularyModel.getID()).setValue(vocabularyModel)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(this, "Content Added Successfully", Toast.LENGTH_SHORT).show();
@@ -110,6 +122,10 @@ public class AddModelContentActivity extends AppCompatActivity {
             return false;
         }
         if (audio == null) {
+            Toast.makeText(this, "Upload an audio", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (germanAudio == null) {
             Toast.makeText(this, "Upload an audio", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -132,6 +148,12 @@ public class AddModelContentActivity extends AppCompatActivity {
                 // Get the selected audio file URI
                 audio = data.getData();
                 binding.audioFile.setText(Constants.getFileName(this,audio));
+            }
+        } else if (requestCode == PICK_GERMAN_AUDIO_REQUEST && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                // Get the selected audio file URI
+                germanAudio = data.getData();
+                binding.audioFileGerman.setText(Constants.getFileName(this,germanAudio));
             }
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
