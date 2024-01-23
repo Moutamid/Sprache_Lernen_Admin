@@ -76,19 +76,12 @@ public class EditModelContentActivity extends AppCompatActivity {
         binding.nameGerman.getEditText().setText(model.getNameGerman());
         Glide.with(EditModelContentActivity.this).load(model.getImage()).placeholder(R.drawable.image).into(binding.imageView);
 
-        String fileName = extractFileName(model.getAudio());
-        String gName = extractFileName(model.getGermanAudio());
+        String fileName = Constants.extractFileName(model.getAudio()) + ".mp3";
+        String gName = Constants.extractFileName(model.getGermanAudio()) + ".mp3";
 
-        binding.audioFile.setText(fileName + ".mp3");
-        binding.audioFileGerman.setText(gName + ".mp3");
+        binding.audioFile.setText(fileName);
+        binding.audioFileGerman.setText(gName);
 
-    }
-
-    private static String extractFileName(String url) {
-        Uri uri = Uri.parse(url);
-        String path = uri.getLastPathSegment();
-        int lastSlashIndex = path.lastIndexOf('/');
-        return (lastSlashIndex != -1) ? path.substring(lastSlashIndex + 1) : path;
     }
 
 
@@ -171,13 +164,13 @@ public class EditModelContentActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 // Get the selected audio file URI
                 audio = data.getData();
-                binding.audioFile.setText(getFileName(audio));
+                binding.audioFile.setText("Urdu Audio File: " + Constants.getFileName(this,audio));
             }
         } else if (requestCode == PICK_GERMAN_AUDIO_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 // Get the selected audio file URI
                 germanAudio = data.getData();
-                binding.audioFileGerman.setText(Constants.getFileName(this,germanAudio));
+                binding.audioFileGerman.setText("German Audio File: " + Constants.getFileName(this,germanAudio));
             }
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
@@ -186,22 +179,6 @@ public class EditModelContentActivity extends AppCompatActivity {
                 Glide.with(EditModelContentActivity.this).load(image).placeholder(R.drawable.image).into(binding.imageView);
             }
         }
-    }
-
-    private String getFileName(Uri uri) {
-        String result = null;
-        if (Objects.equals(uri.getScheme(), "content")) {
-            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    result = cursor.getString(index);
-                }
-            }
-        }
-        if (result == null) {
-            result = uri.getLastPathSegment();
-        }
-        return result;
     }
 
 }

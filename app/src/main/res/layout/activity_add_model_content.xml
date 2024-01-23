@@ -92,13 +92,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Urdu Audio Empty" />
+                android:text="Urdu Audio File: " />
             <TextView
                 android:id="@+id/audioFileGerman"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="German Audio Empty" />
+                android:text="German Audio File: " />
 
             <LinearLayout
                 android:layout_width="match_parent"

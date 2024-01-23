@@ -5,23 +5,40 @@ import java.util.ArrayList;
 public class ContentModel {
     String ID;
     TopicsModel topicsModel;
-    String heading, note;
+    String heading, note, image, audio;
     boolean hasOptions, haveTable;
     ArrayList<String> options;
     ArrayList<String> rows;
 
-    public ContentModel() {
-    }
+    public ContentModel() {}
 
-    public ContentModel(String ID, TopicsModel topicsModel, String heading, String note, boolean hasOptions, boolean haveTable, ArrayList<String> options, ArrayList<String> rows) {
+    public ContentModel(String ID, TopicsModel topicsModel, String heading, String note, String image, String audio, boolean hasOptions, boolean haveTable, ArrayList<String> options, ArrayList<String> rows) {
         this.ID = ID;
         this.topicsModel = topicsModel;
         this.heading = heading;
         this.note = note;
+        this.image = image;
+        this.audio = audio;
         this.hasOptions = hasOptions;
         this.haveTable = haveTable;
         this.options = options;
         this.rows = rows;
+    }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getID() {

@@ -123,7 +123,7 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
                 updateProgress(progress);
             });
 
-            mediaPlayer.setOnCompletionListener(mp -> progress.setProgress(0, true));
+            mediaPlayer.setOnCompletionListener(mp -> progress.setProgress(0));
 
         } catch (IOException e) {
             e.printStackTrace();

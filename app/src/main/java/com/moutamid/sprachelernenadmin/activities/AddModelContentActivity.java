@@ -147,13 +147,13 @@ public class AddModelContentActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 // Get the selected audio file URI
                 audio = data.getData();
-                binding.audioFile.setText(Constants.getFileName(this,audio));
+                binding.audioFile.setText("Urdu Audio File: " + Constants.getFileName(this,audio));
             }
         } else if (requestCode == PICK_GERMAN_AUDIO_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {
                 // Get the selected audio file URI
                 germanAudio = data.getData();
-                binding.audioFileGerman.setText(Constants.getFileName(this,germanAudio));
+                binding.audioFileGerman.setText("German Audio File: " + Constants.getFileName(this,germanAudio));
             }
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {

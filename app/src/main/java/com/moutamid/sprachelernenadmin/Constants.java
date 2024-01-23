@@ -39,6 +39,7 @@ public class Constants {
     public static final String WRITING = "WRITING";
     public static final String VOCABULARY = "VOCABULARY";
     public static final String URDU = "URDU";
+    public static final String Speaking = "Speaking";
     public static final String CONTENT = "CONTENT";
     public static final String EXERCISE = "EXERCISE";
     public static final String PASS = "PASS";
@@ -67,6 +68,13 @@ public class Constants {
 
     public static void dismissDialog() {
         dialog.dismiss();
+    }
+
+    public static String extractFileName(String url) {
+        Uri uri = Uri.parse(url);
+        String path = uri.getLastPathSegment();
+        int lastSlashIndex = path.lastIndexOf('/');
+        return (lastSlashIndex != -1) ? path.substring(lastSlashIndex + 1) : path;
     }
 
     public static String getFileName(Context context, Uri uri) {

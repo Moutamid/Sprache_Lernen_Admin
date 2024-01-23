@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class ViewContentActivity extends AppCompatActivity {
     ActivityViewContentBinding binding;
     ArrayList<ContentModel> list;
-
+    ContentAdapters adapters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class ViewContentActivity extends AppCompatActivity {
 
     private void getContent() {
         Constants.showDialog();
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).addValueEventListener(new ValueEventListener() {
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(Constants.Speaking).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Constants.dismissDialog();
@@ -59,7 +59,7 @@ public class ViewContentActivity extends AppCompatActivity {
                             list.add(model);
                         }
                     }
-                    ContentAdapters adapters = new ContentAdapters(ViewContentActivity.this, list);
+                    adapters = new ContentAdapters(ViewContentActivity.this, list);
                     binding.contentRC.setAdapter(adapters);
                 }
             }
@@ -71,4 +71,22 @@ public class ViewContentActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (adapters != null) {
+            adapters.releaseMediaPlayer();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (adapters != null) {
+            adapters.releaseMediaPlayer();
+        }
+    }
+
+
 }
