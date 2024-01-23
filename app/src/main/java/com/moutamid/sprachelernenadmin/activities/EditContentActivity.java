@@ -26,6 +26,7 @@ public class EditContentActivity extends AppCompatActivity {
     ArrayList<String> options;
     ArrayList<String> rows;
     String image = "", audio = "";
+    String imageHeading = "", subHeading = "";
     Uri img, aud;
     private static final int PICK_AUDIO_REQUEST = 1;
     private static final int PICK_IMAGE_REQUEST = 2;
@@ -58,6 +59,11 @@ public class EditContentActivity extends AppCompatActivity {
                 binding.optionsLayout.removeAllViews();
                 addOption();
             }
+        });
+
+        binding.showImage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            int v = isChecked ? View.VISIBLE : View.GONE;
+            binding.imageLayout.setVisibility(v);
         });
 
         model = (ContentModel) Stash.getObject(Constants.PASS_CONTENT, ContentModel.class);
@@ -142,6 +148,24 @@ public class EditContentActivity extends AppCompatActivity {
             Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if (aud == null) {
+            Toast.makeText(this, "Audio file is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.showImage.isChecked()) {
+            if (img == null) {
+                Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (binding.imaegHeading.getEditText().getText().toString().isEmpty()) {
+                Toast.makeText(this, "Image Heading is required", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (binding.subHeading.getEditText().getText().toString().isEmpty()) {
+                Toast.makeText(this, "Sub heading is required", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
         return true;
     }
 
@@ -154,11 +178,16 @@ public class EditContentActivity extends AppCompatActivity {
 
         binding.showList.setChecked(hasOptions);
         binding.showTable.setChecked(haveRows);
+        binding.showImage.setChecked(!model.getImage().isEmpty());
 
         image = model.getImage();
         audio = model.getAudio();
 
         Glide.with(EditContentActivity.this).load(image).placeholder(R.drawable.image).into(binding.imageView);
+
+        binding.imaegHeading.getEditText().setText(model.getImageHeading());
+        binding.subHeading.getEditText().setText(model.getSubHeading());
+
 
         String fileName = Constants.extractFileName(model.getAudio()) + ".mp3";
         binding.audioFile.setText(fileName);
@@ -204,9 +233,14 @@ public class EditContentActivity extends AppCompatActivity {
         if (haveRows) retrieveDataForRows();
         if (hasOptions) retrieveDataForOptions();
 
+        if (binding.showImage.isChecked()) {
+            imageHeading = binding.imaegHeading.getEditText().getText().toString();
+            subHeading = binding.subHeading.getEditText().getText().toString();
+        }
+
         ContentModel contentModel = new ContentModel(model.getID(), model.getTopicsModel(),
                 binding.heading.getEditText().getText().toString(),
-                binding.note.getEditText().getText().toString(), image, audio, hasOptions, haveRows, options, rows);
+                binding.note.getEditText().getText().toString(), image, audio, imageHeading, subHeading, hasOptions, haveRows, options, rows);
 
         Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(model.getTopicsModel().getContentType()).child(model.getTopicsModel().getID()).child(model.getID()).setValue(contentModel)
                 .addOnSuccessListener(unused -> {

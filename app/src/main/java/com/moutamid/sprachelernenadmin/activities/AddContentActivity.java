@@ -28,9 +28,11 @@ public class AddContentActivity extends AppCompatActivity {
     ArrayList<String> options;
     ArrayList<String> rows;
     String image = "", audio = "";
+    String imageHeading = "", subHeading = "";
     Uri img, aud;
     private static final int PICK_AUDIO_REQUEST = 1;
     private static final int PICK_IMAGE_REQUEST = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,10 @@ public class AddContentActivity extends AppCompatActivity {
                 binding.columnLayout.removeAllViews();
                 addRow();
             }
+        });
+        binding.showImage.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            int v = isChecked ? View.VISIBLE : View.GONE;
+            binding.imageLayout.setVisibility(v);
         });
 
         binding.showList.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -92,7 +98,7 @@ public class AddContentActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                         audio = uri.toString();
-                        if (img != null) {
+                        if (binding.showImage.isChecked()) {
                             uploadImage();
                         } else {
                             uploadData();
@@ -120,14 +126,14 @@ public class AddContentActivity extends AppCompatActivity {
     private boolean valid() {
         if (binding.showTable.isChecked()) {
             retrieveDataForRows();
-            if (!(rows.size()>=1)) {
+            if (!(rows.size() >= 1)) {
                 Toast.makeText(this, "Please add 1 row data", Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
         if (binding.showList.isChecked()) {
             retrieveDataForOptions();
-            if (!(options.size()>=1)) {
+            if (!(options.size() >= 1)) {
                 Toast.makeText(this, "Please add 1 option data", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -140,9 +146,23 @@ public class AddContentActivity extends AppCompatActivity {
             Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (aud==null){
+        if (aud == null) {
             Toast.makeText(this, "Audio file is required", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        if (binding.showImage.isChecked()) {
+            if (img == null) {
+                Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (binding.imaegHeading.getEditText().getText().toString().isEmpty()) {
+                Toast.makeText(this, "Image Heading is required", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (binding.subHeading.getEditText().getText().toString().isEmpty()) {
+                Toast.makeText(this, "Sub heading is required", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         return true;
     }
@@ -154,10 +174,15 @@ public class AddContentActivity extends AppCompatActivity {
         if (haveRows) retrieveDataForRows();
         if (hasOptions) retrieveDataForOptions();
 
+        if (binding.showImage.isChecked()) {
+            imageHeading = binding.imaegHeading.getEditText().getText().toString();
+            subHeading = binding.subHeading.getEditText().getText().toString();
+        }
+
         TopicsModel topicsModel = (TopicsModel) Stash.getObject(Constants.PASS, TopicsModel.class);
         ContentModel model = new ContentModel(UUID.randomUUID().toString(), topicsModel,
                 binding.heading.getEditText().getText().toString(),
-                binding.note.getEditText().getText().toString(), image, audio, hasOptions, haveRows, options, rows);
+                binding.note.getEditText().getText().toString(), image, audio, imageHeading, subHeading, hasOptions, haveRows, options, rows);
 
         Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(topicsModel.getContentType()).child(topicsModel.getID()).child(model.getID()).setValue(model)
                 .addOnSuccessListener(unused -> {
@@ -231,7 +256,7 @@ public class AddContentActivity extends AppCompatActivity {
             if (data != null && data.getData() != null) {
                 // Get the selected audio file URI
                 aud = data.getData();
-                binding.audioFile.setText("Audio File: " + Constants.getFileName(this,aud));
+                binding.audioFile.setText("Audio File: " + Constants.getFileName(this, aud));
             }
         } else if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK) {
             if (data != null && data.getData() != null) {

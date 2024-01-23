@@ -6,23 +6,42 @@ public class ContentModel {
     String ID;
     TopicsModel topicsModel;
     String heading, note, image, audio;
+    String imageHeading, subHeading;
     boolean hasOptions, haveTable;
     ArrayList<String> options;
     ArrayList<String> rows;
 
     public ContentModel() {}
 
-    public ContentModel(String ID, TopicsModel topicsModel, String heading, String note, String image, String audio, boolean hasOptions, boolean haveTable, ArrayList<String> options, ArrayList<String> rows) {
+    public ContentModel(String ID, TopicsModel topicsModel, String heading, String note, String image, String audio, String imageHeading, String subHeading, boolean hasOptions, boolean haveTable, ArrayList<String> options, ArrayList<String> rows) {
         this.ID = ID;
         this.topicsModel = topicsModel;
         this.heading = heading;
         this.note = note;
         this.image = image;
         this.audio = audio;
+        this.imageHeading = imageHeading;
+        this.subHeading = subHeading;
         this.hasOptions = hasOptions;
         this.haveTable = haveTable;
         this.options = options;
         this.rows = rows;
+    }
+
+    public String getImageHeading() {
+        return imageHeading;
+    }
+
+    public void setImageHeading(String imageHeading) {
+        this.imageHeading = imageHeading;
+    }
+
+    public String getSubHeading() {
+        return subHeading;
+    }
+
+    public void setSubHeading(String subHeading) {
+        this.subHeading = subHeading;
     }
 
     public String getAudio() {
