@@ -27,6 +27,7 @@ public class WrittingContentActivity extends AppCompatActivity {
     String heading = "", note = "", fileName = "";
     String germHeading = "", germNote = "", germFileName = "";
     String ID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,15 +106,16 @@ public class WrittingContentActivity extends AppCompatActivity {
             map.put("letter", binding.note.getEditText().getText().toString());
             map.put("audio", audioPath);
         }
+        String msg = isGerman ? "German " : "Urdu ";
         Constants.databaseReference().child(Constants.getLang()).child(Constants.WRITING).child(ID).updateChildren(map)
-            .addOnSuccessListener(unused -> {
-                Constants.dismissDialog();
-                Toast.makeText(this, "Content Added Successfully", Toast.LENGTH_SHORT).show();
+                .addOnSuccessListener(unused -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(this, msg + "Content Added Successfully", Toast.LENGTH_SHORT).show();
 //                onBackPressed()
-            }).addOnFailureListener(e -> {
-                Constants.dismissDialog();
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            });
+                }).addOnFailureListener(e -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
 
@@ -126,13 +128,16 @@ public class WrittingContentActivity extends AppCompatActivity {
             Toast.makeText(this, "Letter is empty", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (audio == null) {
-            Toast.makeText(this, "Upload an audio", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (germanAudio == null) {
-            Toast.makeText(this, "Upload an audio", Toast.LENGTH_SHORT).show();
-            return false;
+        if (isGerman){
+            if (germanAudio == null) {
+                Toast.makeText(this, "Upload an German audio", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            if (audio == null) {
+                Toast.makeText(this, "Upload an Urdu audio", Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
         return true;
     }
