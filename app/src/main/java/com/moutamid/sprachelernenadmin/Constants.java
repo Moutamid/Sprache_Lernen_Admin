@@ -94,7 +94,7 @@ public class Constants {
     }
 
     public static void checkApp(Activity activity) {
-        String appName = "sprachelernen";
+        String appName = "sprachelernenAdmin";
 
         new Thread(() -> {
             URL google = null;

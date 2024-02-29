@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityEditModelContentBinding;
@@ -63,9 +64,17 @@ public class EditModelContentActivity extends AppCompatActivity {
         });
 
         binding.image.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+
+            ImagePicker.with(this)
+                    .cropSquare()
+                    .galleryOnly()
+                    .compress(1024)
+                    .maxResultSize(1080, 1080)
+                    .start(PICK_IMAGE_REQUEST);
+
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("image/*");
+//            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
         });
 
 

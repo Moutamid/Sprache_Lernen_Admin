@@ -1,9 +1,5 @@
 package com.moutamid.sprachelernenadmin.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,9 +10,10 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.fxn.stash.Stash;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,7 +56,7 @@ public class AddTopicsActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.add_topic);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setCancelable(true);
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setGravity(Gravity.CENTER);
         dialog.show();
 
@@ -71,9 +68,8 @@ public class AddTopicsActivity extends AppCompatActivity {
             if (!topicName.isEmpty()) {
                 dialog.dismiss();
                 Constants.showDialog();
-                String s = "Speaking";
-                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, s);
-                Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).child(s).child(model.getID()).setValue(model)
+                TopicsModel model = new TopicsModel(UUID.randomUUID().toString(), topicName, Constants.Speaking);
+                Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).child(Constants.Speaking).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
                             Toast.makeText(AddTopicsActivity.this, "Topic Added Successfully", Toast.LENGTH_SHORT).show();
@@ -95,20 +91,18 @@ public class AddTopicsActivity extends AppCompatActivity {
         Constants.initDialog(this);
         Constants.showDialog();
 
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).addValueEventListener(new ValueEventListener() {
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.TOPICS).child(Constants.Speaking).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Constants.dismissDialog();
                 if (snapshot.exists()) {
                     list.clear();
-                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                        for (DataSnapshot dataSnapshot2 : dataSnapshot.getChildren()){
-                            TopicsModel topicsModel = dataSnapshot2.getValue(TopicsModel.class);
-                            list.add(topicsModel);
-                        }
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        TopicsModel topicsModel = dataSnapshot.getValue(TopicsModel.class);
+                        list.add(topicsModel);
                     }
 
-                    if (list.size() > 0){
+                    if (list.size() > 0) {
                         Collections.reverse(list);
                         binding.topics.setVisibility(View.VISIBLE);
                         binding.noLayout.setVisibility(View.GONE);

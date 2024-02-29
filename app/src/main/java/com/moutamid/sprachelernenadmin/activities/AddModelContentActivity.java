@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddModelContentBinding;
@@ -56,9 +57,17 @@ public class AddModelContentActivity extends AppCompatActivity {
         });
 
         binding.image.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+
+            ImagePicker.with(this)
+                    .cropSquare()
+                    .galleryOnly()
+                    .compress(1024)
+                    .maxResultSize(1080, 1080)
+                    .start(PICK_IMAGE_REQUEST);
+
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("image/*");
+//            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
         });
 
     }

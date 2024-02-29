@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.fxn.stash.Stash;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
@@ -87,9 +88,15 @@ public class EditContentActivity extends AppCompatActivity {
         });
 
         binding.image.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+            ImagePicker.with(this)
+                    .cropSquare()
+                    .galleryOnly()
+                    .compress(1024)
+                    .maxResultSize(1080, 1080)
+                    .start(PICK_IMAGE_REQUEST);
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("image/*");
+//            startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
         });
 
     }
@@ -251,7 +258,6 @@ public class EditContentActivity extends AppCompatActivity {
                     Constants.dismissDialog();
                     Toast.makeText(EditContentActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
-
     }
 
     private void retrieveDataForOptions() {

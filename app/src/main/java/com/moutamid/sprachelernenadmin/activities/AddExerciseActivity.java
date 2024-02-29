@@ -1,5 +1,7 @@
 package com.moutamid.sprachelernenadmin.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
@@ -15,6 +18,7 @@ import com.moutamid.sprachelernenadmin.databinding.ActivityAddExerciseBinding;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.UUID;
 
 public class AddExerciseActivity extends AppCompatActivity {
@@ -23,7 +27,9 @@ public class AddExerciseActivity extends AppCompatActivity {
     ArrayList<String> options;
     String level = "";
     String exercise = "";
-
+    Uri audio;
+    private static final int PICK_AUDIO_REQUEST = 1;
+    String audioPath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,34 +48,56 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         binding.addOption.setOnClickListener(v -> addOption());
 
+        binding.uploadAdio.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("audio/*");
+            startActivityForResult(Intent.createChooser(intent, "Select Audio File"), PICK_AUDIO_REQUEST);
+        });
+
         binding.next.setOnClickListener(v -> {
             if (valid()) {
-                retrieveDataForOptions();
-                boolean isFTBChecked = binding.isFTB.isChecked();
-                boolean isMultipleChecked = binding.isMultiple.isChecked();
-                boolean isReorderChecked = binding.isReorder.isChecked();
-                ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), level,
-                        binding.question.getEditText().getText().toString(),
-                        exercise,
-                        options,
-                        binding.answer.getEditText().getText().toString(),
-                        isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString()
-                );
                 Constants.showDialog();
-
-                Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
-                        .addOnSuccessListener(unused -> {
-                            Constants.dismissDialog();
-                            Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-                        }).addOnFailureListener(e -> {
-                            Constants.dismissDialog();
-                            Toast.makeText(AddExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                uploadAudio();
             }
         });
 
+    }
+
+    private void uploadAudio() {
+        Constants.storageReference().child("audio").child(Constants.getFormattedDate(new Date().getTime())).putFile(audio)
+                .addOnSuccessListener(taskSnapshot -> {
+                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                        audioPath = uri.toString();
+                        uploadData();
+                    });
+                }).addOnFailureListener(e -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void uploadData() {
+        retrieveDataForOptions();
+        boolean isFTBChecked = binding.isFTB.isChecked();
+        boolean isMultipleChecked = binding.isMultiple.isChecked();
+        boolean isReorderChecked = binding.isReorder.isChecked();
+        ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), level,
+                binding.question.getEditText().getText().toString(),
+                exercise,
+                options,
+                binding.answer.getEditText().getText().toString(),
+                isMultipleChecked, isFTBChecked, isReorderChecked,
+                binding.explain.getEditText().getText().toString(), audioPath
+        );
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
+                .addOnSuccessListener(unused -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }).addOnFailureListener(e -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(AddExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private boolean valid() {
@@ -110,6 +138,10 @@ public class AddExerciseActivity extends AppCompatActivity {
             Toast.makeText(this, "Right Answer are required", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if (audio == null){
+            Toast.makeText(this, "Add Audio File", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
 
@@ -142,4 +174,16 @@ public class AddExerciseActivity extends AppCompatActivity {
         super.onResume();
         Constants.initDialog(this);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                audio = data.getData();
+                binding.uploadAdio.setText("Audio File: " + Constants.getFileName(this,audio));
+            }
+        }
+    }
+
 }
