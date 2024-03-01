@@ -50,7 +50,7 @@ public class EditExerciseActivity extends AppCompatActivity {
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString()
+                        binding.explain.getEditText().getText().toString(), model.getVoiceover()
                 );
                 Constants.showDialog();
 

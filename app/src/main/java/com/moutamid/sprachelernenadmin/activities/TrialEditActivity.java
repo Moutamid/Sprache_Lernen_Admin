@@ -51,7 +51,7 @@ public class TrialEditActivity extends AppCompatActivity {
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString()
+                        binding.explain.getEditText().getText().toString(), model.getVoiceover()
                 );
                 Constants.showDialog();
                 Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(exerciseModel)
