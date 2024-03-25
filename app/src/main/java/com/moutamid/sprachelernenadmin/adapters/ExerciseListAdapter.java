@@ -38,9 +38,10 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     @Override
     public void onBindViewHolder(@NonNull TopicVH holder, int position) {
         Exercise model = list.get(holder.getAdapterPosition());
-        holder.name.setText(model.getLevel());
-        holder.content.setText(model.getName());
-
+        holder.content.setText(model.getLevel());
+        holder.name.setText(model.getName());
+        String s = model.getExerciseCount() + (model.getExerciseCount() > 1 ? " Ex's" : " Ex");
+        holder.count.setText(s);
 
         holder.delete.setOnClickListener(v -> {
             new MaterialAlertDialogBuilder(context)
@@ -74,12 +75,14 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     public class TopicVH extends RecyclerView.ViewHolder {
         TextView name;
         TextView content;
+        TextView count;
         MaterialCardView delete;
 
         public TopicVH(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.text);
             content = itemView.findViewById(R.id.content);
+            count = itemView.findViewById(R.id.count);
             delete = itemView.findViewById(R.id.delete);
         }
     }

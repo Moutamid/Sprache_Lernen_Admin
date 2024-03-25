@@ -83,7 +83,8 @@ public class ExerciseSelection extends BottomSheetDialogFragment {
 
                         ExListAdapter adapter = new ExListAdapter(requireContext(), list, model -> {
                             dismiss();
-                            startActivity(new Intent(requireContext(), AddExerciseActivity.class).putExtra(Constants.LEVEL, level).putExtra(Constants.exercise, model.getName()));
+                            Stash.put(Constants.Exercise, model);
+                            startActivity(new Intent(requireContext(), AddExerciseActivity.class));
                         });
                         topicList.setAdapter(adapter);
                     } else {

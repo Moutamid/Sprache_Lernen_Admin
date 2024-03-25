@@ -3,14 +3,23 @@ package com.moutamid.sprachelernenadmin.models;
 public class Exercise {
 
     String ID, level, name;
-
+    int exerciseCount;
     public Exercise() {
     }
 
-    public Exercise(String ID, String level, String name) {
+    public Exercise(String ID, String level, String name, int exerciseCount) {
         this.ID = ID;
         this.level = level;
         this.name = name;
+        this.exerciseCount = exerciseCount;
+    }
+
+    public int getExerciseCount() {
+        return exerciseCount;
+    }
+
+    public void setExerciseCount(int exerciseCount) {
+        this.exerciseCount = exerciseCount;
     }
 
     public String getID() {

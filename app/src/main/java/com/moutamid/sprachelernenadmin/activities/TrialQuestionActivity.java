@@ -44,13 +44,13 @@ public class TrialQuestionActivity extends AppCompatActivity {
                 boolean isFTBChecked = binding.isFTB.isChecked();
                 boolean isMultipleChecked = binding.isMultiple.isChecked();
                 boolean isReorderChecked = binding.isReorder.isChecked();
-                ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), "Start",
+                ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(),"", "Start",
                         binding.question.getEditText().getText().toString(),
                         "Trial Questions",
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), ""
+                        binding.explain.getEditText().getText().toString(), "", 0
                 );
                 Constants.showDialog();
                 Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(model)

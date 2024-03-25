@@ -66,7 +66,7 @@ public class ExerciseAdapters extends RecyclerView.Adapter<ExerciseAdapters.Cont
                     .setPositiveButton("Yes", ((dialog, which) -> {
                         dialog.dismiss();
                         Constants.showDialog();
-                        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(model.getLevel()).child(model.getID()).removeValue()
+                        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(model.getLevel()).child(model.getExerciseID()).child(String.valueOf(model.getExerciseCount())).child(model.getID()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Constants.dismissDialog();
                                     Toast.makeText(context, "Exercise Deleted Successfully", Toast.LENGTH_SHORT).show();

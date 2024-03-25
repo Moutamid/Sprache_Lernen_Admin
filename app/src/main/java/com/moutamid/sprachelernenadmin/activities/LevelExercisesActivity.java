@@ -71,6 +71,7 @@ public class LevelExercisesActivity extends AppCompatActivity {
         dialog.show();
 
         TextInputLayout topic = dialog.findViewById(R.id.topic);
+        TextInputLayout count = dialog.findViewById(R.id.count);
         Button complete = dialog.findViewById(R.id.complete);
         ChipGroup chipGroup = dialog.findViewById(R.id.contentType);
 
@@ -83,7 +84,8 @@ public class LevelExercisesActivity extends AppCompatActivity {
 
         complete.setOnClickListener(v -> {
             String topicName = topic.getEditText().getText().toString();
-            if (!topicName.isEmpty()) {
+            String countEx = count.getEditText().getText().toString();
+            if (!topicName.isEmpty() && !countEx.isEmpty()) {
                 dialog.dismiss();
                 Constants.showDialog();
 
@@ -96,7 +98,7 @@ public class LevelExercisesActivity extends AppCompatActivity {
                     }
                 }
 
-                Exercise model = new Exercise(UUID.randomUUID().toString(), s, topicName);
+                Exercise model = new Exercise(UUID.randomUUID().toString(), s, topicName, Integer.parseInt(countEx));
                 Constants.databaseReference().child(lang).child(Constants.EXERCISE_LIST).child(s).child(model.getID()).setValue(model)
                         .addOnSuccessListener(unused -> {
                             Constants.dismissDialog();
@@ -106,8 +108,7 @@ public class LevelExercisesActivity extends AppCompatActivity {
                             Toast.makeText(LevelExercisesActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
             } else {
-                topic.setErrorEnabled(true);
-                topic.setError("Exercise name is empty");
+                Toast.makeText(this, "Fill all fields", Toast.LENGTH_SHORT).show();
             }
         });
 

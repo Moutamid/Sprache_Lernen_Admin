@@ -45,13 +45,13 @@ public class TrialEditActivity extends AppCompatActivity {
                 boolean isMultipleChecked = binding.isMultiple.isChecked();
                 boolean isReorderChecked = binding.isReorder.isChecked();
 
-                ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getLevel(),
+                ExerciseModel exerciseModel = new ExerciseModel(model.getID(),"", model.getLevel(),
                         binding.question.getEditText().getText().toString(),
                         model.getExerciseName(),
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), model.getVoiceover()
+                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), 0
                 );
                 Constants.showDialog();
                 Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(exerciseModel)

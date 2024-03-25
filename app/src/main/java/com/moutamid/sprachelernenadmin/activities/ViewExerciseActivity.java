@@ -57,8 +57,12 @@ public class ViewExerciseActivity extends AppCompatActivity {
                     list.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         for (DataSnapshot snapshot2 : snapshot.getChildren()) {
-                            ExerciseModel model = snapshot2.getValue(ExerciseModel.class);
-                            list.add(model);
+                            for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
+                                for (DataSnapshot snapshot4 : snapshot3.getChildren()) {
+                                    ExerciseModel model = snapshot4.getValue(ExerciseModel.class);
+                                    list.add(model);
+                                }
+                            }
                         }
                     }
                     ExerciseAdapters adapters = new ExerciseAdapters(ViewExerciseActivity.this, list);

@@ -5,16 +5,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.fxn.stash.Stash;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddExerciseBinding;
+import com.moutamid.sprachelernenadmin.models.Exercise;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
 
 import java.util.ArrayList;
@@ -27,7 +30,9 @@ public class AddExerciseActivity extends AppCompatActivity {
     ArrayList<String> options;
     String level = "";
     String exercise = "";
+    int exerciseCount = 0;
     Uri audio;
+    Exercise exerciseModel;
     private static final int PICK_AUDIO_REQUEST = 1;
     String audioPath;
     @Override
@@ -40,13 +45,22 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         options = new ArrayList<>();
 
-        level = getIntent().getStringExtra(Constants.LEVEL);
-        exercise = getIntent().getStringExtra(Constants.exercise);
+        exerciseModel = (Exercise) Stash.getObject(Constants.Exercise, Exercise.class);
+        level = exerciseModel.getLevel();
+        exercise = exerciseModel.getName();
+        exerciseCount = exerciseModel.getExerciseCount();
 
         addOption();
         addOption();
 
         binding.addOption.setOnClickListener(v -> addOption());
+
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 0; i < exerciseCount; i++) {
+            list.add( ""+(i+1));
+        }
+        ArrayAdapter<String> exerciseAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
+        binding.exerciseList.setAdapter(exerciseAdapter);
 
         binding.uploadAdio.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -81,15 +95,15 @@ public class AddExerciseActivity extends AppCompatActivity {
         boolean isFTBChecked = binding.isFTB.isChecked();
         boolean isMultipleChecked = binding.isMultiple.isChecked();
         boolean isReorderChecked = binding.isReorder.isChecked();
-        ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), level,
+        ExerciseModel model = new ExerciseModel(UUID.randomUUID().toString(), exerciseModel.getID(), level,
                 binding.question.getEditText().getText().toString(),
                 exercise,
                 options,
                 binding.answer.getEditText().getText().toString(),
                 isMultipleChecked, isFTBChecked, isReorderChecked,
-                binding.explain.getEditText().getText().toString(), audioPath
+                binding.explain.getEditText().getText().toString(), audioPath, Integer.parseInt(binding.exerciseNumber.getEditText().getText().toString())
         );
-        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(level).child(model.getID()).setValue(model)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(level).child(exerciseModel.getID()).child(String.valueOf(model.getExerciseCount())).child(model.getID()).setValue(model)
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
@@ -136,6 +150,10 @@ public class AddExerciseActivity extends AppCompatActivity {
         }
         if (binding.answer.getEditText().getText().toString().isEmpty()) {
             Toast.makeText(this, "Right Answer are required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.exerciseNumber.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Exercise Number is required", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (audio == null){

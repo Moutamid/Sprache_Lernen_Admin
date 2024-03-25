@@ -3,6 +3,7 @@ package com.moutamid.sprachelernenadmin.activities;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -44,13 +45,13 @@ public class EditExerciseActivity extends AppCompatActivity {
                 boolean isMultipleChecked = binding.isMultiple.isChecked();
                 boolean isReorderChecked = binding.isReorder.isChecked();
 
-                ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getLevel(),
+                ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getExerciseID(), model.getLevel(),
                         binding.question.getEditText().getText().toString(),
                         model.getExerciseName(),
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), model.getVoiceover()
+                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), Integer.parseInt(binding.exerciseNumber.getEditText().getText().toString())
                 );
                 Constants.showDialog();
 
@@ -111,6 +112,7 @@ public class EditExerciseActivity extends AppCompatActivity {
     private void setContent(ExerciseModel model) {
         binding.question.getEditText().setText(model.getQuestion());
         binding.answer.getEditText().setText(model.getRightAnswer());
+        binding.exerciseNumber.getEditText().setText(model.getExerciseCount());
 
         boolean isFillBlank = model.isFillBlank();
         boolean isOrder = model.isOrder();

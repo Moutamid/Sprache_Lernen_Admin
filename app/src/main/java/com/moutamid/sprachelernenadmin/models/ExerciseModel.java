@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class ExerciseModel {
     String ID;
+    String exerciseID;
     String level;
     String question;
     String exerciseName;
@@ -12,12 +13,13 @@ public class ExerciseModel {
     boolean isMCQs, isFillBlank, isOrder;
     String explanation;
     String voiceover;
-
+    int exerciseCount;
     public ExerciseModel() {
     }
 
-    public ExerciseModel(String ID, String level, String question, String exerciseName, ArrayList<String> options, String rightAnswer, boolean isMCQs, boolean isFillBlank, boolean isOrder, String explanation, String voiceover) {
+    public ExerciseModel(String ID, String exerciseID, String level, String question, String exerciseName, ArrayList<String> options, String rightAnswer, boolean isMCQs, boolean isFillBlank, boolean isOrder, String explanation, String voiceover, int exerciseCount) {
         this.ID = ID;
+        this.exerciseID = exerciseID;
         this.level = level;
         this.question = question;
         this.exerciseName = exerciseName;
@@ -28,6 +30,23 @@ public class ExerciseModel {
         this.isOrder = isOrder;
         this.explanation = explanation;
         this.voiceover = voiceover;
+        this.exerciseCount = exerciseCount;
+    }
+
+    public String getExerciseID() {
+        return exerciseID;
+    }
+
+    public void setExerciseID(String exerciseID) {
+        this.exerciseID = exerciseID;
+    }
+
+    public int getExerciseCount() {
+        return exerciseCount;
+    }
+
+    public void setExerciseCount(int exerciseCount) {
+        this.exerciseCount = exerciseCount;
     }
 
     public String getVoiceover() {
