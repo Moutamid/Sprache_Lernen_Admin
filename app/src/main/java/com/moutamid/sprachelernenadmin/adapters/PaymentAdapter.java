@@ -73,6 +73,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
                                     Map<String, Object> map = new HashMap<>();
                                     map.put("vip", true);
                                     map.put("subscriptionFromGoogle", false);
+                                    map.put("duration", model.getDuration());
                                     Constants.databaseReference().child(Constants.USER).child(model.getUserID()).updateChildren(map)
                                             .addOnSuccessListener(unused1 -> Toast.makeText(context, "Subscription Approved", Toast.LENGTH_SHORT).show())
                                             .addOnFailureListener(e -> Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show());
