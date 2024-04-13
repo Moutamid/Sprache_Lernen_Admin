@@ -36,9 +36,12 @@ public class Constants {
     public static final String SELECT = "SELECT";
     public static final String TOPICS = "TOPICS";
     public static final String ID = "ID";
+    public static final String USER = "USER";
     public static final String WRITING = "WRITING";
     public static final String Exercise = "Exercise";
     public static final String VOCABULARY = "VOCABULARY";
+    public static final String EURO_SYMBOL = "€";
+    public static final String PAYMENTS = "PAYMENTS";
     public static final String exerciseCount = "exerciseCount";
     public static final String URDU = "URDU";
     public static final String Speaking = "Speaking";

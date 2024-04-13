@@ -39,5 +39,7 @@ public class SelectActivity extends AppCompatActivity {
         binding.trialQuestions.setOnClickListener(v -> startActivity(new Intent(this, TrialQuestionActivity.class)));
         binding.viewTrial.setOnClickListener(v -> startActivity(new Intent(this, ViewTrialActivity.class)));
 
+        binding.payment.setOnClickListener(v -> startActivity(new Intent(this, PaymentActivity.class)));
+
     }
 }

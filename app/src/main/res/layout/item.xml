@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_marginBottom="8dp">
@@ -53,7 +54,7 @@
                     android:id="@+id/count"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="5 Ex's"
+                    tools:text="5 Ex's"
                     android:textSize="17sp"
                     android:gravity="end"
                     android:layout_weight="1"

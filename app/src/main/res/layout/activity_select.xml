@@ -40,10 +40,31 @@
                 android:textSize="16sp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:gravity="start|center"
+                android:padding="12dp"
+                android:layout_marginTop="12dp"
+                android:text="Payment Managment"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/round_keyboard_arrow_right_24"
+                app:iconGravity="end"
+                app:iconTint="@color/black" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginVertical="12dp"
+                android:background="@color/grey" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/topic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:backgroundTint="@color/grey"
                 android:gravity="start|center"
                 android:padding="12dp"
