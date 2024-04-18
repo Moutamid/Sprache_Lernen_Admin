@@ -51,7 +51,7 @@ public class EditExerciseActivity extends AppCompatActivity {
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), Integer.parseInt(binding.exerciseNumber.getEditText().getText().toString())
+                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), Integer.parseInt(binding.exerciseNumber.getEditText().getText().toString()), Integer.parseInt(binding.questionCount.getEditText().getText().toString())
                 );
                 Constants.showDialog();
 
@@ -100,6 +100,10 @@ public class EditExerciseActivity extends AppCompatActivity {
         }
         if (binding.question.getEditText().getText().toString().isEmpty()) {
             Toast.makeText(this, "Question are required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.questionCount.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Question Count is required", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (binding.answer.getEditText().getText().toString().isEmpty()) {

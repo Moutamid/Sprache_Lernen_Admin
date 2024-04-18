@@ -14,10 +14,11 @@ public class ExerciseModel {
     String explanation;
     String voiceover;
     int exerciseCount;
+    int questionCount;
     public ExerciseModel() {
     }
 
-    public ExerciseModel(String ID, String exerciseID, String level, String question, String exerciseName, ArrayList<String> options, String rightAnswer, boolean isMCQs, boolean isFillBlank, boolean isOrder, String explanation, String voiceover, int exerciseCount) {
+    public ExerciseModel(String ID, String exerciseID, String level, String question, String exerciseName, ArrayList<String> options, String rightAnswer, boolean isMCQs, boolean isFillBlank, boolean isOrder, String explanation, String voiceover, int exerciseCount, int questionCount) {
         this.ID = ID;
         this.exerciseID = exerciseID;
         this.level = level;
@@ -31,6 +32,15 @@ public class ExerciseModel {
         this.explanation = explanation;
         this.voiceover = voiceover;
         this.exerciseCount = exerciseCount;
+        this.questionCount = questionCount;
+    }
+
+    public int getQuestionCount() {
+        return questionCount;
+    }
+
+    public void setQuestionCount(int questionCount) {
+        this.questionCount = questionCount;
     }
 
     public String getExerciseID() {

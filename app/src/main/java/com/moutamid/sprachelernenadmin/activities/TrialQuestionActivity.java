@@ -50,7 +50,7 @@ public class TrialQuestionActivity extends AppCompatActivity {
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), "", 0
+                        binding.explain.getEditText().getText().toString(), "", 0, Integer.parseInt(binding.questionCount.getEditText().getText().toString())
                 );
                 Constants.showDialog();
                 Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(model)
@@ -93,15 +93,19 @@ public class TrialQuestionActivity extends AppCompatActivity {
         }
 
         if (binding.explain.getEditText().getText().toString().isEmpty()) {
-            Toast.makeText(this, "Explanation are required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Explanation is required", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (binding.question.getEditText().getText().toString().isEmpty()) {
-            Toast.makeText(this, "Question are required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Question is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.questionCount.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Question Count is required", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (binding.answer.getEditText().getText().toString().isEmpty()) {
-            Toast.makeText(this, "Right Answer are required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Right Answer is required", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

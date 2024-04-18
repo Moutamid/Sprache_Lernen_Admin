@@ -65,6 +65,8 @@ public class PaymentActivity extends AppCompatActivity {
         binding = ActivityPaymentBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.toolbar.back.setOnClickListener(v -> finish());
+
         list = new ArrayList<>();
 
         binding.paymentRC.setHasFixedSize(false);

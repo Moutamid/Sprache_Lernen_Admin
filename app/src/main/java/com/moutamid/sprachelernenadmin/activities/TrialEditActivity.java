@@ -51,7 +51,7 @@ public class TrialEditActivity extends AppCompatActivity {
                         options,
                         binding.answer.getEditText().getText().toString(),
                         isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), 0
+                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), 0, Integer.parseInt(binding.questionCount.getEditText().getText().toString())
                 );
                 Constants.showDialog();
                 Constants.databaseReference().child(Constants.TRIAL_QUESTIONS).child(model.getID()).setValue(exerciseModel)
@@ -100,6 +100,10 @@ public class TrialEditActivity extends AppCompatActivity {
         }
         if (binding.question.getEditText().getText().toString().isEmpty()) {
             Toast.makeText(this, "Question are required", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (binding.questionCount.getEditText().getText().toString().isEmpty()) {
+            Toast.makeText(this, "Question Count is required", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (binding.answer.getEditText().getText().toString().isEmpty()) {
