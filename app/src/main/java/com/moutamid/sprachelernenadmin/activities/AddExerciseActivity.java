@@ -108,11 +108,28 @@ public class AddExerciseActivity extends AppCompatActivity {
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
-                   // onBackPressed();
+                   updateView();
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
                     Toast.makeText(AddExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void updateView() {
+        audioPath = "";
+        audio = null;
+        binding.uploadAdio.setText("Upload Audio");
+        binding.question.getEditText().setText("");
+        binding.answer.getEditText().setText("");
+        binding.explain.getEditText().setText("");
+        int count = Integer.parseInt(binding.questionCount.getEditText().getText().toString()) + 1;
+        binding.questionCount.getEditText().setText(String.valueOf(count));
+
+        binding.isMultiple.setChecked(false);
+        binding.isReorder.setChecked(false);
+        binding.isFTB.setChecked(false);
+
+        binding.optionsLayout.removeAllViews();
     }
 
     private boolean valid() {
