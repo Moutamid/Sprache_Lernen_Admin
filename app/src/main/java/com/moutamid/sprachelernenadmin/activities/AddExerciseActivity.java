@@ -108,7 +108,7 @@ public class AddExerciseActivity extends AppCompatActivity {
                 .addOnSuccessListener(unused -> {
                     Constants.dismissDialog();
                     Toast.makeText(AddExerciseActivity.this, "Exercise Added Successfully", Toast.LENGTH_SHORT).show();
-                    onBackPressed();
+                   // onBackPressed();
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
                     Toast.makeText(AddExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();

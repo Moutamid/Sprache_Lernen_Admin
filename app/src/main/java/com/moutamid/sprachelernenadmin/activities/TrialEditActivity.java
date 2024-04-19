@@ -114,8 +114,10 @@ public class TrialEditActivity extends AppCompatActivity {
     }
 
     private void setContent(ExerciseModel model) {
+        binding.questionCount.getEditText().setText(model.getQuestionCount()+"");
         binding.question.getEditText().setText(model.getQuestion());
         binding.answer.getEditText().setText(model.getRightAnswer());
+        binding.explain.getEditText().setText(model.getExplanation());
 
         boolean isFillBlank = model.isFillBlank();
         boolean isOrder = model.isOrder();

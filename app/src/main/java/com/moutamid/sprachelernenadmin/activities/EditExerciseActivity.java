@@ -1,9 +1,10 @@
 package com.moutamid.sprachelernenadmin.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -17,11 +18,15 @@ import com.moutamid.sprachelernenadmin.databinding.ActivityEditExerciseBinding;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EditExerciseActivity extends AppCompatActivity {
     ActivityEditExerciseBinding binding;
     int optionsCount = 1;
     ArrayList<String> options;
+    Uri audio;
+    private static final int PICK_AUDIO_REQUEST = 1;
+    String audioPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,34 +43,60 @@ public class EditExerciseActivity extends AppCompatActivity {
 
         binding.addOption.setOnClickListener(v -> addOption());
 
+        binding.uploadAdio.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("audio/*");
+            startActivityForResult(Intent.createChooser(intent, "Select Audio File"), PICK_AUDIO_REQUEST);
+        });
+
         binding.next.setOnClickListener(v -> {
             if (valid()) {
-                retrieveDataForOptions();
-                boolean isFTBChecked = binding.isFTB.isChecked();
-                boolean isMultipleChecked = binding.isMultiple.isChecked();
-                boolean isReorderChecked = binding.isReorder.isChecked();
-
-                ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getExerciseID(), model.getLevel(),
-                        binding.question.getEditText().getText().toString(),
-                        model.getExerciseName(),
-                        options,
-                        binding.answer.getEditText().getText().toString(),
-                        isMultipleChecked, isFTBChecked, isReorderChecked,
-                        binding.explain.getEditText().getText().toString(), model.getVoiceover(), Integer.parseInt(binding.exerciseNumber.getEditText().getText().toString()), Integer.parseInt(binding.questionCount.getEditText().getText().toString())
-                );
-                Constants.showDialog();
-
-                Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(model.getID()).setValue(exerciseModel)
-                        .addOnSuccessListener(unused -> {
-                            Constants.dismissDialog();
-                            Toast.makeText(EditExerciseActivity.this, "Exercise Updated Successfully", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
-                        }).addOnFailureListener(e -> {
-                            Constants.dismissDialog();
-                            Toast.makeText(EditExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                        });
+                if (audio != null){
+                    uploadAudio();
+                } else {
+                    UploadData(model.getVoiceover());
+                }
             }
         });
+    }
+
+    private void UploadData(String voiceover) {
+        ExerciseModel model = (ExerciseModel) Stash.getObject(Constants.PASS_EXERCISE, ExerciseModel.class);
+        retrieveDataForOptions();
+        boolean isFTBChecked = binding.isFTB.isChecked();
+        boolean isMultipleChecked = binding.isMultiple.isChecked();
+        boolean isReorderChecked = binding.isReorder.isChecked();
+
+        ExerciseModel exerciseModel = new ExerciseModel(model.getID(), model.getExerciseID(), model.getLevel(),
+                binding.question.getEditText().getText().toString(),
+                model.getExerciseName(),
+                options,
+                binding.answer.getEditText().getText().toString(),
+                isMultipleChecked, isFTBChecked, isReorderChecked,
+                binding.explain.getEditText().getText().toString(), voiceover, Integer.parseInt(binding.exerciseNumber.getEditText().getText().toString()), Integer.parseInt(binding.questionCount.getEditText().getText().toString())
+        );
+        Constants.showDialog();
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.EXERCISE).child(exerciseModel.getLevel()).child(exerciseModel.getExerciseID()).child(String.valueOf(exerciseModel.getExerciseCount())).child(exerciseModel.getID()).setValue(exerciseModel)
+                .addOnSuccessListener(unused -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(EditExerciseActivity.this, "Exercise Updated Successfully", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }).addOnFailureListener(e -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(EditExerciseActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void uploadAudio() {
+        Constants.storageReference().child("audio").child(Constants.getFormattedDate(new Date().getTime())).putFile(audio)
+                .addOnSuccessListener(taskSnapshot -> {
+                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                        UploadData(uri.toString());
+                    });
+                }).addOnFailureListener(e -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 
     private boolean valid() {
@@ -116,7 +147,9 @@ public class EditExerciseActivity extends AppCompatActivity {
     private void setContent(ExerciseModel model) {
         binding.question.getEditText().setText(model.getQuestion());
         binding.answer.getEditText().setText(model.getRightAnswer());
-        binding.exerciseNumber.getEditText().setText(model.getExerciseCount());
+        binding.explain.getEditText().setText(model.getExplanation());
+        binding.exerciseNumber.getEditText().setText(model.getExerciseCount()+"");
+        binding.questionCount.getEditText().setText(model.getQuestionCount()+"");
 
         boolean isFillBlank = model.isFillBlank();
         boolean isOrder = model.isOrder();
@@ -168,6 +201,17 @@ public class EditExerciseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Constants.initDialog(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                audio = data.getData();
+                binding.uploadAdio.setText("Audio File: " + Constants.getFileName(this,audio));
+            }
+        }
     }
 
 }
