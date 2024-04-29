@@ -117,6 +117,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
     private void updateView() {
         audioPath = "";
+        optionsCount = 1;
         audio = null;
         binding.uploadAdio.setText("Upload Audio");
         binding.question.getEditText().setText("");
