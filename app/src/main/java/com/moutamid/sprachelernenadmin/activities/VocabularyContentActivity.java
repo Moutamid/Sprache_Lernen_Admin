@@ -19,6 +19,7 @@ import com.moutamid.sprachelernenadmin.models.VocabularyModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class VocabularyContentActivity extends AppCompatActivity {
     ActivityVocabularyContentBinding binding;
@@ -89,7 +90,7 @@ public class VocabularyContentActivity extends AppCompatActivity {
                                 binding.topics.setVisibility(View.GONE);
                                 binding.noLayout.setVisibility(View.VISIBLE);
                             }
-
+                            list.sort(Comparator.comparing(VocabularyModel::getName));
                             adapters = new ModelContentAdapters(VocabularyContentActivity.this, list);
                             binding.topics.setAdapter(adapters);
                         }

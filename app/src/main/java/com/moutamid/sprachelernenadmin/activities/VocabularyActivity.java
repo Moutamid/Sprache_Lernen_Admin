@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +34,7 @@ import java.util.UUID;
 public class VocabularyActivity extends AppCompatActivity {
     ActivityVocabularyPapersBinding binding;
     ArrayList<TopicsModel> list;
+    ModelTopicsAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,23 @@ public class VocabularyActivity extends AppCompatActivity {
         binding.topics.setHasFixedSize(false);
 
         binding.fab.setOnClickListener(v -> showDialog());
+
+        binding.search.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -112,7 +132,7 @@ public class VocabularyActivity extends AppCompatActivity {
                         binding.noLayout.setVisibility(View.VISIBLE);
                     }
 
-                    ModelTopicsAdapter adapter = new ModelTopicsAdapter(VocabularyActivity.this, list);
+                    adapter = new ModelTopicsAdapter(VocabularyActivity.this, list);
                     binding.topics.setAdapter(adapter);
                 }
             }

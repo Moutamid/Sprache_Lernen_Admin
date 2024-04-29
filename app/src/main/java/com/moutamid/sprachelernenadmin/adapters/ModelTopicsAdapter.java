@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +27,18 @@ import com.moutamid.sprachelernenadmin.activities.VocabularyContentActivity;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.ModelTopicsVH> {
+public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.ModelTopicsVH> implements Filterable {
 
     Context context;
     ArrayList<TopicsModel> list;
+    ArrayList<TopicsModel> listAll;
 
     public ModelTopicsAdapter(Context context, ArrayList<TopicsModel> list) {
         this.context = context;
         this.list = list;
+        this.listAll = new ArrayList<>(list);
     }
 
     @NonNull
@@ -114,6 +119,38 @@ public class ModelTopicsAdapter extends RecyclerView.Adapter<ModelTopicsAdapter.
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<TopicsModel> filterList = new ArrayList<>();
+            if (constraint.toString().isEmpty()){
+                filterList.addAll(listAll);
+            } else {
+                for (TopicsModel listModel : listAll){
+                    if (listModel.getTopicName().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filterList.add(listModel);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filterList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((Collection<? extends TopicsModel>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     public class ModelTopicsVH extends RecyclerView.ViewHolder {
