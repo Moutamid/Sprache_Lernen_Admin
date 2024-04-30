@@ -189,7 +189,8 @@ public class AddContentActivity extends AppCompatActivity {
         TopicsModel topicsModel = (TopicsModel) Stash.getObject(Constants.PASS, TopicsModel.class);
         ContentModel model = new ContentModel(UUID.randomUUID().toString(), topicsModel,
                 binding.heading.getEditText().getText().toString(),
-                binding.note.getEditText().getText().toString(), image, audio, imageHeading, subHeading, hasOptions, haveRows, options, rows);
+                binding.note.getEditText().getText().toString(), image, audio, imageHeading, subHeading, hasOptions, haveRows, options, rows,
+                Integer.parseInt(binding.count.getEditText().getText().toString()));
 
         Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(topicsModel.getContentType()).child(topicsModel.getID()).child(model.getID()).setValue(model)
                 .addOnSuccessListener(unused -> {

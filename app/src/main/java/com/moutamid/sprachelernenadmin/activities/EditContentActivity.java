@@ -179,6 +179,7 @@ public class EditContentActivity extends AppCompatActivity {
     private void setContent(ContentModel model) {
         binding.heading.getEditText().setText(model.getHeading());
         binding.note.getEditText().setText(model.getNote());
+        binding.count.getEditText().setText(model.getPos()+"");
 
         boolean haveRows = model.isHaveTable();
         boolean hasOptions = model.isHasOptions();
@@ -247,7 +248,8 @@ public class EditContentActivity extends AppCompatActivity {
 
         ContentModel contentModel = new ContentModel(model.getID(), model.getTopicsModel(),
                 binding.heading.getEditText().getText().toString(),
-                binding.note.getEditText().getText().toString(), image, audio, imageHeading, subHeading, hasOptions, haveRows, options, rows);
+                binding.note.getEditText().getText().toString(), image, audio, imageHeading, subHeading, hasOptions, haveRows, options, rows,
+                Integer.parseInt(binding.count.getEditText().getText().toString()));
 
         Constants.databaseReference().child(Constants.getLang()).child(Constants.CONTENT).child(model.getTopicsModel().getContentType()).child(model.getTopicsModel().getID()).child(model.getID()).setValue(contentModel)
                 .addOnSuccessListener(unused -> {

@@ -10,10 +10,10 @@ public class ContentModel {
     boolean hasOptions, haveTable;
     ArrayList<String> options;
     ArrayList<String> rows;
-
+    int pos;
     public ContentModel() {}
 
-    public ContentModel(String ID, TopicsModel topicsModel, String heading, String note, String image, String audio, String imageHeading, String subHeading, boolean hasOptions, boolean haveTable, ArrayList<String> options, ArrayList<String> rows) {
+    public ContentModel(String ID, TopicsModel topicsModel, String heading, String note, String image, String audio, String imageHeading, String subHeading, boolean hasOptions, boolean haveTable, ArrayList<String> options, ArrayList<String> rows, int pos) {
         this.ID = ID;
         this.topicsModel = topicsModel;
         this.heading = heading;
@@ -26,6 +26,15 @@ public class ContentModel {
         this.haveTable = haveTable;
         this.options = options;
         this.rows = rows;
+        this.pos = pos;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
     }
 
     public String getImageHeading() {
