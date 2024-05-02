@@ -94,7 +94,15 @@ public class AddContentActivity extends AppCompatActivity {
 
         binding.next.setOnClickListener(v -> {
             if (valid())
-                uploadAudio();
+                if (aud == null){
+                    if (binding.showImage.isChecked()) {
+                        uploadImage();
+                    } else {
+                        uploadData();
+                    }
+                } else {
+                    uploadAudio();
+                }
         });
 
     }
@@ -153,10 +161,10 @@ public class AddContentActivity extends AppCompatActivity {
             Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (aud == null) {
-            Toast.makeText(this, "Audio file is required", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (aud == null) {
+//            Toast.makeText(this, "Audio file is required", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         if (binding.showImage.isChecked()) {
             if (img == null) {
                 Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
