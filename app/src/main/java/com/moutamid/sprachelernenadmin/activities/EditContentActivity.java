@@ -147,18 +147,18 @@ public class EditContentActivity extends AppCompatActivity {
                 return false;
             }
         }
-        if (binding.heading.getEditText().getText().toString().isEmpty()) {
-            Toast.makeText(this, "Heading is required", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (binding.note.getEditText().getText().toString().isEmpty()) {
-            Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (aud == null) {
-            Toast.makeText(this, "Audio file is required", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if (binding.heading.getEditText().getText().toString().isEmpty()) {
+//            Toast.makeText(this, "Heading is required", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        if (binding.note.getEditText().getText().toString().isEmpty()) {
+//            Toast.makeText(this, "Note is required", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
+//        if (aud == null) {
+//            Toast.makeText(this, "Audio file is required", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
         if (binding.showImage.isChecked()) {
             if (img == null) {
                 Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();

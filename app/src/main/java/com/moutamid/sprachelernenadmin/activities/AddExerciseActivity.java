@@ -57,7 +57,7 @@ public class AddExerciseActivity extends AppCompatActivity {
 
         ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < exerciseCount; i++) {
-            list.add( ""+(i+1));
+            list.add(""+(i+1));
         }
         ArrayAdapter<String> exerciseAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, list);
         binding.exerciseList.setAdapter(exerciseAdapter);
