@@ -76,10 +76,15 @@ public class Constants {
     }
 
     public static String extractFileName(String url) {
-        Uri uri = Uri.parse(url);
-        String path = uri.getLastPathSegment();
-        int lastSlashIndex = path.lastIndexOf('/');
-        return (lastSlashIndex != -1) ? path.substring(lastSlashIndex + 1) : path;
+        try {
+            Uri uri = Uri.parse(url);
+            String path = uri.getLastPathSegment();
+            int lastSlashIndex = path.lastIndexOf('/');
+            return (lastSlashIndex != -1) ? path.substring(lastSlashIndex + 1) : path;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static String getFileName(Context context, Uri uri) {

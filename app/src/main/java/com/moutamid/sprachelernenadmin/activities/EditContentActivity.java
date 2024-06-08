@@ -179,7 +179,7 @@ public class EditContentActivity extends AppCompatActivity {
     private void setContent(ContentModel model) {
         binding.heading.getEditText().setText(model.getHeading());
         binding.note.getEditText().setText(model.getNote());
-        binding.count.getEditText().setText(model.getPos()+"");
+        binding.count.getEditText().setText(model.getPos() + "");
 
         boolean haveRows = model.isHaveTable();
         boolean hasOptions = model.isHasOptions();
@@ -263,6 +263,7 @@ public class EditContentActivity extends AppCompatActivity {
     }
 
     private void retrieveDataForOptions() {
+        options.clear();
         for (int i = 0; i < binding.optionsLayout.getChildCount(); i++) {
             View view = binding.optionsLayout.getChildAt(i);
             if (view instanceof RelativeLayout) {
@@ -277,6 +278,7 @@ public class EditContentActivity extends AppCompatActivity {
     }
 
     private void retrieveDataForRows() {
+        rows.clear();
         for (int i = 0; i < binding.columnLayout.getChildCount(); i++) {
             View view = binding.columnLayout.getChildAt(i);
             if (view instanceof RelativeLayout) {

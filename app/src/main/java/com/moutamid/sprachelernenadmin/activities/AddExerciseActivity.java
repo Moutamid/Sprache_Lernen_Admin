@@ -129,8 +129,11 @@ public class AddExerciseActivity extends AppCompatActivity {
         binding.isMultiple.setChecked(false);
         binding.isReorder.setChecked(false);
         binding.isFTB.setChecked(false);
-
+        options.clear();
         binding.optionsLayout.removeAllViews();
+        optionsCount = 1;
+        addOption();
+        addOption();
     }
 
     private boolean valid() {
