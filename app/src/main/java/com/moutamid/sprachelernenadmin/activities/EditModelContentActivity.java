@@ -59,7 +59,15 @@ public class EditModelContentActivity extends AppCompatActivity {
         binding.upload.setOnClickListener(v -> {
             if (valid()) {
                 Constants.showDialog();
-                uploadImage();
+                if (image != null) {
+                    uploadImage();
+                } else if (audio != null) {
+                    uploadAudio();
+                } else if (germanAudio != null) {
+                    uploadGermanAudio();
+                } else {
+                    uploadData(model.getImage(), model.getAudio(), model.getGermanAudio());
+                }
             }
         });
 
@@ -99,7 +107,13 @@ public class EditModelContentActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                         imagePath = uri.toString();
-                        uploadAudio();
+                        if (audio != null) {
+                            uploadAudio();
+                        } else if (germanAudio != null) {
+                            uploadGermanAudio();
+                        } else {
+                            uploadData(imagePath, model.getAudio(), model.getGermanAudio());
+                        }
                     });
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
@@ -112,16 +126,13 @@ public class EditModelContentActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                         audioPath = uri.toString();
-                        Constants.storageReference().child("audio").child(Constants.getFormattedDate(new Date().getTime())).putFile(germanAudio)
-                                .addOnSuccessListener(taskSnapshot2 -> {
-                                    taskSnapshot2.getStorage().getDownloadUrl().addOnSuccessListener(uri2 -> {
-                                        germanAudioPath = uri2.toString();
-                                        uploadData();
-                                    });
-                                }).addOnFailureListener(e -> {
-                                    Constants.dismissDialog();
-                                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                });
+                        if (germanAudio != null) {
+                            uploadGermanAudio();
+                        } else if (imagePath == null) {
+                            uploadData(model.getImage(), audioPath, model.getGermanAudio());
+                        } else {
+                            uploadData(imagePath, audioPath, model.getGermanAudio());
+                        }
                     });
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();
@@ -129,12 +140,31 @@ public class EditModelContentActivity extends AppCompatActivity {
                 });
     }
 
-    private void uploadData() {
+    private void uploadGermanAudio() {
+        Constants.storageReference().child("audio").child(Constants.getFormattedDate(new Date().getTime())).putFile(germanAudio)
+                .addOnSuccessListener(taskSnapshot2 -> {
+                    taskSnapshot2.getStorage().getDownloadUrl().addOnSuccessListener(uri2 -> {
+                        germanAudioPath = uri2.toString();
+                        if (image == null && audio == null) {
+                            uploadData(model.getImage(), model.getAudio(), germanAudioPath);
+                        } else if (image != null && audio == null) {
+                            uploadData(imagePath, model.getAudio(), germanAudioPath);
+                        } else {
+                            uploadData(imagePath, audioPath, germanAudioPath);
+                        }
+                    });
+                }).addOnFailureListener(e -> {
+                    Constants.dismissDialog();
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void uploadData(String image, String audio, String germanAudio) {
         VocabularyModel vocabularyModel = new VocabularyModel(
                 model.getID(), model.getTopicID(),
                 binding.name.getEditText().getText().toString(),
                 binding.nameGerman.getEditText().getText().toString(),
-                imagePath, audioPath, germanAudioPath
+                image, audio, germanAudio
         );
         Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(model.getTopicID()).child(vocabularyModel.getID()).setValue(vocabularyModel)
                 .addOnSuccessListener(unused -> {
@@ -147,14 +177,6 @@ public class EditModelContentActivity extends AppCompatActivity {
                 });
     }
     private boolean valid() {
-        if (image == null) {
-            Toast.makeText(this, "Upload an image", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (audio == null) {
-            Toast.makeText(this, "Upload an audio", Toast.LENGTH_SHORT).show();
-            return false;
-        }
         if (binding.name.getEditText().getText().toString().isEmpty()) {
             Toast.makeText(this, "Name is empty", Toast.LENGTH_SHORT).show();
             return false;
