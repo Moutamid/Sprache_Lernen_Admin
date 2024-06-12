@@ -112,7 +112,7 @@ public class AddModelContentActivity extends AppCompatActivity {
                 UUID.randomUUID().toString(), ID,
                 binding.name.getEditText().getText().toString(),
                 binding.nameGerman.getEditText().getText().toString(),
-                imagePath, audioPath, germanAudioPath
+                imagePath, audioPath, germanAudioPath, Integer.parseInt(binding.pos.getEditText().getText().toString())
         );
         Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(ID).child(vocabularyModel.getID()).setValue(vocabularyModel)
                 .addOnSuccessListener(unused -> {

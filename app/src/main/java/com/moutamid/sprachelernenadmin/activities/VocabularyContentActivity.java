@@ -109,7 +109,11 @@ public class VocabularyContentActivity extends AppCompatActivity {
                                 binding.topics.setVisibility(View.GONE);
                                 binding.noLayout.setVisibility(View.VISIBLE);
                             }
-                            list.sort(Comparator.comparing(VocabularyModel::getName));
+                            if (list.get(0).getPos() == 0) {
+                                list.sort(Comparator.comparing(VocabularyModel::getName));
+                            } else {
+                                list.sort(Comparator.comparing(VocabularyModel::getPos));
+                            }
                             adapters = new ModelContentAdapters(VocabularyContentActivity.this, list);
                             binding.topics.setAdapter(adapters);
                         }

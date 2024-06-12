@@ -89,6 +89,7 @@ public class EditModelContentActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
+        binding.pos.getEditText().setText(String.valueOf(model.getPos()));
         binding.name.getEditText().setText(model.getName());
         binding.nameGerman.getEditText().setText(model.getNameGerman());
         Glide.with(EditModelContentActivity.this).load(model.getImage()).placeholder(R.drawable.image).into(binding.imageView);
@@ -164,7 +165,7 @@ public class EditModelContentActivity extends AppCompatActivity {
                 model.getID(), model.getTopicID(),
                 binding.name.getEditText().getText().toString(),
                 binding.nameGerman.getEditText().getText().toString(),
-                image, audio, germanAudio
+                image, audio, germanAudio, Integer.parseInt(binding.pos.getEditText().getText().toString())
         );
         Constants.databaseReference().child(Constants.getLang()).child(Constants.VOCABULARY).child(Constants.CONTENT).child(model.getTopicID()).child(vocabularyModel.getID()).setValue(vocabularyModel)
                 .addOnSuccessListener(unused -> {

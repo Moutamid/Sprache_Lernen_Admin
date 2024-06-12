@@ -2,8 +2,19 @@ package com.moutamid.sprachelernenadmin.models;
 
 public class VocabularyModel {
     String ID, topicID, name, nameGerman, image, audio, germanAudio;
-
+    int pos;
     public VocabularyModel() {
+    }
+
+    public VocabularyModel(String ID, String topicID, String name, String nameGerman, String image, String audio, String germanAudio, int pos) {
+        this.ID = ID;
+        this.topicID = topicID;
+        this.name = name;
+        this.nameGerman = nameGerman;
+        this.image = image;
+        this.audio = audio;
+        this.germanAudio = germanAudio;
+        this.pos = pos;
     }
 
     public VocabularyModel(String ID, String topicID, String name, String nameGerman, String image, String audio, String germanAudio) {
@@ -14,6 +25,14 @@ public class VocabularyModel {
         this.image = image;
         this.audio = audio;
         this.germanAudio = germanAudio;
+    }
+
+    public int getPos() {
+        return pos;
+    }
+
+    public void setPos(int pos) {
+        this.pos = pos;
     }
 
     public String getID() {
