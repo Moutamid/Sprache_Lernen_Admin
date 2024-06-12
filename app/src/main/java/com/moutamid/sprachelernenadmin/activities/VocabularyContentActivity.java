@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
@@ -41,6 +43,23 @@ public class VocabularyContentActivity extends AppCompatActivity {
 
         binding.topics.setLayoutManager(new LinearLayoutManager(this));
         binding.topics.setHasFixedSize(false);
+
+        binding.search.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapters.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         binding.fab.setOnClickListener(v -> startActivity(new Intent(this, AddModelContentActivity.class).putExtra(Constants.TOPICS, ID)));
     }

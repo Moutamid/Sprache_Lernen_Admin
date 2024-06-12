@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,11 +28,13 @@ import com.moutamid.sprachelernenadmin.models.VocabularyModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
-public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapters.ContentVH> {
+public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapters.ContentVH> implements Filterable {
 
     Context context;
     ArrayList<VocabularyModel> list;
+    ArrayList<VocabularyModel> listAll;
     MediaPlayer mediaPlayer;
     int playingPosition = -1;
     private Handler handler = new Handler();
@@ -38,6 +42,7 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
     public ModelContentAdapters(Context context, ArrayList<VocabularyModel> list) {
         this.context = context;
         this.list = list;
+        this.listAll = new ArrayList<>(list);
         this.mediaPlayer = new MediaPlayer();
     }
 
@@ -156,6 +161,39 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
         return list.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            ArrayList<VocabularyModel> filterList = new ArrayList<>();
+            if (constraint.toString().isEmpty()) {
+                filterList.addAll(listAll);
+            } else {
+                for (VocabularyModel listModel : listAll) {
+                    if (listModel.getName().toLowerCase().contains(constraint.toString().toLowerCase()) ||
+                            listModel.getNameGerman().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                        filterList.add(listModel);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filterList;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((Collection<? extends VocabularyModel>) results.values);
+            notifyDataSetChanged();
+        }
+    };
+
     public class ContentVH extends RecyclerView.ViewHolder {
         TextView name, german;
         MaterialCardView delete, edit, play;
@@ -163,6 +201,7 @@ public class ModelContentAdapters extends RecyclerView.Adapter<ModelContentAdapt
         ImageView imageView, playIcon;
         MaterialCardView germanFlag, pakistanFlag;
         boolean selectedFlag;
+
         public ContentVH(@NonNull View itemView) {
             super(itemView);
 
