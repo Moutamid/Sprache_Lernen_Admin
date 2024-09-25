@@ -1,4 +1,5 @@
-package com.moutamid.sprachelernenadmin.activities;
+ package com.moutamid.sprachelernenadmin.activities;
+import com.moutamid.sprachelernenadmin.Stash;
 
 import android.app.Dialog;
 import android.graphics.drawable.ColorDrawable;

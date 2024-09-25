@@ -2,8 +2,6 @@ package com.moutamid.sprachelernenadmin;
 
 import android.app.Application;
 
-import com.fxn.stash.Stash;
-
 public class MyApplication extends Application {
 
     @Override

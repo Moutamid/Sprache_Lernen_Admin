@@ -1,4 +1,5 @@
-package com.moutamid.sprachelernenadmin.activities;
+ package com.moutamid.sprachelernenadmin.activities;
+import com.moutamid.sprachelernenadmin.Stash;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,7 +15,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.fxn.stash.Stash;
+ 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;

@@ -23,7 +23,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -33,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation("com.fxn769:stash:1.3.2")
+//    implementation("com.fxn769:stash:1.3.2")
     implementation("com.github.dhaval2404:imagepicker:2.1")
 
     implementation("com.google.firebase:firebase-auth:22.3.0")
@@ -50,4 +53,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation("com.google.code.gson:gson:2.8.2")
 }

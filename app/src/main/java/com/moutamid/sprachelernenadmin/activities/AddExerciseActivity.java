@@ -1,4 +1,5 @@
-package com.moutamid.sprachelernenadmin.activities;
+ package com.moutamid.sprachelernenadmin.activities;
+import com.moutamid.sprachelernenadmin.Stash;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,14 +13,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.fxn.stash.Stash;
+ 
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddExerciseBinding;
 import com.moutamid.sprachelernenadmin.models.Exercise;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
-
+import com.moutamid.sprachelernenadmin.Stash;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;

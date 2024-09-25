@@ -1,4 +1,5 @@
-package com.moutamid.sprachelernenadmin.activities;
+ package com.moutamid.sprachelernenadmin.activities;
+import com.moutamid.sprachelernenadmin.Stash;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.fxn.stash.Stash;
+ 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

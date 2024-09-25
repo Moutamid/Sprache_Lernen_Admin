@@ -1,4 +1,5 @@
-package com.moutamid.sprachelernenadmin.activities;
+ package com.moutamid.sprachelernenadmin.activities;
+import com.moutamid.sprachelernenadmin.Stash;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -7,10 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import com.moutamid.sprachelernenadmin.Stash;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fxn.stash.Stash;
+ 
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;

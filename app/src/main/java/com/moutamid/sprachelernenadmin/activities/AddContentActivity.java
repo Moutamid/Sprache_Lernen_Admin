@@ -1,4 +1,7 @@
-package com.moutamid.sprachelernenadmin.activities;
+ package com.moutamid.sprachelernenadmin.activities;
+import com.moutamid.sprachelernenadmin.Stash;
+
+import com.moutamid.sprachelernenadmin.Stash;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,11 +14,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.fxn.stash.Stash;
+
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.moutamid.sprachelernenadmin.Constants;
 import com.moutamid.sprachelernenadmin.R;
+import com.moutamid.sprachelernenadmin.Stash;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddContentBinding;
 import com.moutamid.sprachelernenadmin.models.ContentModel;
 import com.moutamid.sprachelernenadmin.models.TopicsModel;
@@ -94,7 +98,7 @@ public class AddContentActivity extends AppCompatActivity {
 
         binding.next.setOnClickListener(v -> {
             if (valid())
-                if (aud == null){
+                if (aud == null) {
                     if (binding.showImage.isChecked()) {
                         uploadImage();
                     } else {
