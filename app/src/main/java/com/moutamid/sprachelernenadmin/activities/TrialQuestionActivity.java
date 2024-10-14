@@ -94,7 +94,8 @@ public class TrialQuestionActivity extends AppCompatActivity {
         binding.addExercise.setOnClickListener(v -> {
             if (valid()) {
                 Constants.showDialog();
-                uploadAudio();
+                audioPath = "";
+                uploadData(); // uploadAudio
             }
         });
 
@@ -138,7 +139,7 @@ public class TrialQuestionActivity extends AppCompatActivity {
         addOptionContent();
         addRow();
 
-        binding.addOption.setOnClickListener(v -> addOptionContent());
+        binding.addList.setOnClickListener(v -> addOptionContent());
         binding.addRow.setOnClickListener(v -> addRow());
 
         binding.AddContent.setOnClickListener(v -> {
@@ -176,8 +177,12 @@ public class TrialQuestionActivity extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
                         audioPath = uri.toString();
-                        if (binding.showImage.isChecked()) {
-                            uploadImage();
+                        if (binding.isContent.isChecked()) {
+                            if (binding.showImage.isChecked()) {
+                                uploadImage();
+                            } else {
+                                uploadData();
+                            }
                         } else {
                             uploadData();
                         }
@@ -203,13 +208,15 @@ public class TrialQuestionActivity extends AppCompatActivity {
 
         ContentModel content = new ContentModel();
         ExerciseModel exercise = new ExerciseModel();
-
+        int c;
         if (binding.isContent.isChecked()) {
+            c = Integer.parseInt(binding.count.getEditText().getText().toString());
             content = new ContentModel(UUID.randomUUID().toString(), null,
                     binding.heading.getEditText().getText().toString(),
                     binding.note.getEditText().getText().toString(), image, audioPath, imageHeading, subHeading, hasOptions, haveRows, optionsList, rows,
                     Integer.parseInt(binding.count.getEditText().getText().toString()));
         } else {
+            c = Integer.parseInt(binding.questionCount.getEditText().getText().toString());
             exercise = new ExerciseModel(UUID.randomUUID().toString(),"", "Start",
                     binding.question.getEditText().getText().toString(),
                     "Trial Questions",
@@ -220,9 +227,9 @@ public class TrialQuestionActivity extends AppCompatActivity {
             );
         }
         Constants.showDialog();
-        String c = binding.count.getEditText().getText().toString().isEmpty() ? "0" : binding.count.getEditText().getText().toString();
+
         TrialContent trialContent = new TrialContent(
-                UUID.randomUUID().toString(), Integer.parseInt(c),
+                UUID.randomUUID().toString(), c,
                 exercise, content, binding.isExercise.isChecked(), binding.isContent.isChecked()
         );
 
@@ -286,7 +293,8 @@ public class TrialQuestionActivity extends AppCompatActivity {
                     return false;
                 }
             }
-        } else {
+        }
+        else {
             retrieveDataForOptions();
             if (!(options.size()>1)){
                 Toast.makeText(this, "Options are required", Toast.LENGTH_SHORT).show();
@@ -338,8 +346,8 @@ public class TrialQuestionActivity extends AppCompatActivity {
 
     private void retrieveDataForOptionsList() {
         optionsList.clear();
-        for (int i = 0; i < binding.optionsLayout.getChildCount(); i++) {
-            View view = binding.optionsLayout.getChildAt(i);
+        for (int i = 0; i < binding.ListLayout.getChildCount(); i++) {
+            View view = binding.ListLayout.getChildAt(i);
             if (view instanceof RelativeLayout) {
                 RelativeLayout textInputLayout = (RelativeLayout) view;
                 TextInputLayout customEditText = textInputLayout.findViewById(R.id.addColumn);
@@ -372,7 +380,7 @@ public class TrialQuestionActivity extends AppCompatActivity {
         TextInputLayout customEditText = customEditTextLayout.findViewById(R.id.addColumn);
         customEditText.setHint("");
 
-        binding.optionsLayout.addView(customEditTextLayout);
+        binding.ListLayout.addView(customEditTextLayout);
     }
 
     private void addRow() {

@@ -15,12 +15,13 @@ import com.moutamid.sprachelernenadmin.adapters.ExerciseAdapters;
 import com.moutamid.sprachelernenadmin.adapters.TrialQuestionAdapters;
 import com.moutamid.sprachelernenadmin.databinding.ActivityViewTrialBinding;
 import com.moutamid.sprachelernenadmin.models.ExerciseModel;
+import com.moutamid.sprachelernenadmin.models.TrialContent;
 
 import java.util.ArrayList;
 
 public class ViewTrialActivity extends AppCompatActivity {
     ActivityViewTrialBinding binding;
-    ArrayList<ExerciseModel> list;
+    ArrayList<TrialContent> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +54,11 @@ public class ViewTrialActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         list.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            ExerciseModel model = snapshot.getValue(ExerciseModel.class);
+                            TrialContent model = snapshot.getValue(TrialContent.class);
                             list.add(model);
                         }
-                        TrialQuestionAdapters adapters = new TrialQuestionAdapters(this, list);
-                        binding.contentRC.setAdapter(adapters);
+//                        TrialQuestionAdapters adapters = new TrialQuestionAdapters(this, list);
+//                        binding.contentRC.setAdapter(adapters);
                     }
                 }).addOnFailureListener(e -> {
                     Constants.dismissDialog();

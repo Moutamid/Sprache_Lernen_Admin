@@ -28,13 +28,10 @@ public class MainActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword("admin@b1pruefung.com", "b1admin").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
-
                 binding.urdu.setOnClickListener(v -> {
                     Stash.put(Constants.SELECT, Constants.URDU);
                     startActivity(new Intent(MainActivity.this, SelectActivity.class));
                 });
-
                 binding.english.setOnClickListener(v -> showWarning());
                 binding.persian.setOnClickListener(v -> showWarning());
             }
