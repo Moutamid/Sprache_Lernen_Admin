@@ -1,15 +1,12 @@
 package com.moutamid.sprachelernenadmin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.moutamid.sprachelernenadmin.activities.SelectActivity;
 import com.moutamid.sprachelernenadmin.databinding.ActivityMainBinding;
@@ -24,17 +21,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Constants.checkApp(this);
 
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setCancelable(false);
+        dialog.setMessage("Please Wait...");
+        dialog.show();
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.signInWithEmailAndPassword("admin@b1pruefung.com", "b1admin").addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                binding.urdu.setOnClickListener(v -> {
-                    Stash.put(Constants.SELECT, Constants.URDU);
-                    startActivity(new Intent(MainActivity.this, SelectActivity.class));
-                });
-                binding.english.setOnClickListener(v -> showWarning());
-                binding.persian.setOnClickListener(v -> showWarning());
-            }
+        auth.signInWithEmailAndPassword("admin@b1pruefung.com", "b1admin").addOnCompleteListener(task -> {
+            dialog.dismiss();
+            binding.urdu.setOnClickListener(v -> {
+                Stash.put(Constants.SELECT, Constants.URDU);
+                startActivity(new Intent(MainActivity.this, SelectActivity.class));
+            });
+            binding.english.setOnClickListener(v -> showWarning());
+            binding.persian.setOnClickListener(v -> showWarning());
         });
     }
 
