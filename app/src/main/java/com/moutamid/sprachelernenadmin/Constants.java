@@ -32,6 +32,7 @@ public class Constants {
 
     static Dialog dialog;
     public static final String DATE_FORMAT = "dd_MM_yyyy_hh_mm_ss";
+    public static final String MODEL_PAPERS = "MODEL_PAPERS";
     public static final String SELECT = "SELECT";
     public static final String TOPICS = "TOPICS";
     public static final String PRICES = "PRICES";

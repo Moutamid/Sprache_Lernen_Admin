@@ -51,6 +51,7 @@ public class SelectActivity extends AppCompatActivity {
         binding.viewExercise.setOnClickListener(v -> startActivity(new Intent(this, ViewExerciseActivity.class)));
         binding.trialQuestions.setOnClickListener(v -> startActivity(new Intent(this, TrialQuestionActivity.class)));
         binding.viewTrial.setOnClickListener(v -> startActivity(new Intent(this, ViewTrialActivity.class)));
+        binding.papers.setOnClickListener(v -> startActivity(new Intent(this, ModelPapersActivity.class)));
 
         binding.payment.setOnClickListener(v -> startActivity(new Intent(this, PaymentActivity.class)));
 
