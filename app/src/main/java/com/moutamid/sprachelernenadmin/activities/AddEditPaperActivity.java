@@ -17,7 +17,10 @@ import com.moutamid.sprachelernenadmin.R;
 import com.moutamid.sprachelernenadmin.databinding.ActivityAddEditPaperBinding;
 import com.moutamid.sprachelernenadmin.models.ModelPaper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 public class AddEditPaperActivity extends AppCompatActivity {
@@ -82,16 +85,32 @@ public class AddEditPaperActivity extends AppCompatActivity {
         paper.name = binding.name.getEditText().getText().toString().trim();
         paper.voices = new ArrayList<>(audios_url);
 
-        Constants.databaseReference().child(Constants.MODEL_PAPERS)
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS)
                 .child(paper.id).setValue(paper)
                 .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Data uploaded]", Toast.LENGTH_SHORT).show();
+                    Constants.dismissDialog();
+                    Toast.makeText(this, "Data uploaded", Toast.LENGTH_SHORT).show();
                     onBackPressed();
+                }).addOnFailureListener(e -> {
+                   Constants.dismissDialog();
+                    Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 
     private void uploadAudios(int pos) {
-
+        Constants.storageReference().child(Constants.MODEL_PAPERS).child("audios")
+                .child(new SimpleDateFormat("ddMMyyyyHHmmss", Locale.getDefault()).format(new Date()))
+                .putFile(voices.get(pos))
+                .addOnSuccessListener(taskSnapshot -> {
+                    taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(uri -> {
+                        audios_url.add(uri.toString());
+                        if (pos == voices.size() - 1) {
+                            uploadData();
+                        } else {
+                            uploadAudios(pos + 1);
+                        }
+                    });
+                });
     }
 
     private boolean valid() {

@@ -49,7 +49,7 @@ public class ModelPapersActivity extends AppCompatActivity {
 
     private void getData() {
         list = new ArrayList<>();
-        Constants.databaseReference().child(Constants.MODEL_PAPERS).addValueEventListener(new ValueEventListener() {
+        Constants.databaseReference().child(Constants.getLang()).child(Constants.MODEL_PAPERS).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 list.clear();

@@ -59,10 +59,6 @@ public class PapersAdapter extends RecyclerView.Adapter<PapersAdapter.TopicVH> {
                     }))
                     .show();
         });
-
-        holder.edit.setOnClickListener(v -> {
-            Toast.makeText(context, "Edited", Toast.LENGTH_SHORT).show();
-        });
     }
 
     @Override
@@ -72,12 +68,11 @@ public class PapersAdapter extends RecyclerView.Adapter<PapersAdapter.TopicVH> {
 
     public class TopicVH extends RecyclerView.ViewHolder {
         TextView name;
-        MaterialCardView delete, edit;
+        MaterialCardView delete;
 
         public TopicVH(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.text);
-            edit = itemView.findViewById(R.id.edit);
             delete = itemView.findViewById(R.id.delete);
         }
     }

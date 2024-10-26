@@ -36,25 +36,6 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:strokeWidth="0dp"
-        app:cardElevation="0dp"
-        android:layout_marginStart="8dp"
-        app:cardBackgroundColor="@color/blue"
-        app:cardCornerRadius="16dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/round_mode_edit_outline_24"
-            app:tint="@color/white"
-            android:layout_margin="12dp" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
