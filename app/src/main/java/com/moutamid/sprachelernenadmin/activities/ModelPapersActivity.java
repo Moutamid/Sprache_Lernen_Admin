@@ -18,6 +18,7 @@ import com.moutamid.sprachelernenadmin.databinding.ActivityModelPapersBinding;
 import com.moutamid.sprachelernenadmin.models.ModelPaper;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ModelPapersActivity extends AppCompatActivity {
     ActivityModelPapersBinding binding;
@@ -58,6 +59,7 @@ public class ModelPapersActivity extends AppCompatActivity {
                         ModelPaper paper = snapshot.getValue(ModelPaper.class);
                         list.add(paper);
                     }
+                    list.sort(Comparator.comparing(modelPaper -> modelPaper.name));
                     if (!list.isEmpty()) {
                         binding.loading.setVisibility(View.GONE);
                         binding.papersRC.setVisibility(View.VISIBLE);
