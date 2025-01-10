@@ -45,6 +45,7 @@ public class Constants {
     public static final String PAYMENTS = "PAYMENTS";
     public static final String exerciseCount = "exerciseCount";
     public static final String URDU = "URDU";
+    public static final String HINDI = "HINDI";
     public static final String Speaking = "Speaking";
     public static final String CONTENT = "CONTENT";
     public static final String EXERCISE = "EXERCISE";
@@ -172,6 +173,6 @@ public class Constants {
     }
 
     public static String getLang() {
-        return Stash.getString(Constants.SELECT, Constants.URDU);
+        return Stash.getString(Constants.SELECT, Constants.HINDI);
     }
 }

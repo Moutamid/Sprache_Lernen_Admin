@@ -33,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
                 Stash.put(Constants.SELECT, Constants.URDU);
                 startActivity(new Intent(MainActivity.this, SelectActivity.class));
             });
+            binding.hindi.setOnClickListener(v -> {
+                Stash.put(Constants.SELECT, Constants.HINDI);
+                startActivity(new Intent(MainActivity.this, SelectActivity.class));
+            });
             binding.english.setOnClickListener(v -> showWarning());
             binding.persian.setOnClickListener(v -> showWarning());
         });
